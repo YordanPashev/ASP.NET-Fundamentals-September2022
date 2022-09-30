@@ -35,11 +35,33 @@ namespace MVC_Intro_Demo.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return this.View();
         }
 
-        public IActionResult All()
+        [ActionName("My-Products")]
+        public IActionResult SelectProducts(string keyword)
         {
+            if (keyword != null)
+            {
+                IEnumerable<ProductViewModel> selectedproducts = products
+                        .Where(p => p.Name.ToLower().Contains(keyword.ToLower()))
+                        .ToArray();
+                return this.View(selectedproducts);
+            }
+
+            return this.View(products);
+        }
+
+        public IActionResult All(string keyword)
+        {
+            if (keyword != null)
+            {
+                IEnumerable<ProductViewModel> selectedproducts = products
+                        .Where(p => p.Name.ToLower().Contains(keyword.ToLower()))
+                        .ToArray();
+                return this.View(selectedproducts);
+            }
+
             return this.View(products);
         }
 
@@ -51,7 +73,7 @@ namespace MVC_Intro_Demo.Controllers
                 WriteIndented = true,
             };
 
-            return Json(products, jsonOptions);
+            return this.Json(products, jsonOptions);
         }
 
 

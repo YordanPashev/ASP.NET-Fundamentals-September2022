@@ -17,33 +17,33 @@ namespace MVC_Intro_Demo.Controllers
         public IActionResult Index()
         {
             this.ViewBag.Message = "Hello World!";
-            return View();
+            return this.View();
         }
 
         [HttpGet]
         public IActionResult About()
         {
             this.ViewBag.Message = "This is an ASP.NET Core MVC app.";
-            return View();
+            return this.View();
         }
 
         [HttpGet]
         public IActionResult Numbers()
         {
             this.ViewBag.Message = "Nums 1 ... 50";
-            return View();
+            return this.View();
         }
 
         public IActionResult NumbersToN(int count = 3)
         {
             this.ViewBag.Count = count;
-            return View();
+            return this.View();
         }
 
         [HttpGet]
         public IActionResult Privacy()
         {
-            return View();
+            return this.View();
         }
 
 
@@ -51,7 +51,7 @@ namespace MVC_Intro_Demo.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return this.View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
