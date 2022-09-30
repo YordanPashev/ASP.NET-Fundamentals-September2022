@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
+using MVC_Intro_Demo.Models;
 using MVC_Intro_Demo.ViewModels;
 using System.Text;
 using System.Text.Json;
@@ -99,7 +100,12 @@ namespace MVC_Intro_Demo.Controllers
 
 			if (product == null)
 			{
-                return BadRequest();
+                ErrorViewModel errorModel = new ErrorViewModel()
+                {
+                    RequestId = id.ToString()
+                };
+
+                return this.View("Error", errorModel);
 			}
 
             return this.View(product);
