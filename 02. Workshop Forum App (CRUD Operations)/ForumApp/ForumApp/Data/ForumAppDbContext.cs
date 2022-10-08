@@ -2,8 +2,8 @@
 {
     using Microsoft.EntityFrameworkCore;
 
-    using ForumApp.Data.Configure;
     using ForumApp.Data.Entities;
+    using ForumApp.Data.Configure;
 
     public class ForumAppDbContext : DbContext
     {

@@ -16,6 +16,6 @@ html {
 body {
     margin-bottom: 60px;
     background-image: url("https://cdn.britannica.com/25/189725-050-916024CC/Ruins-colonnade-forum-city-Jarash-Jordan-Gerasa.jpg");
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     background-size: 1980px 1080px;
 }

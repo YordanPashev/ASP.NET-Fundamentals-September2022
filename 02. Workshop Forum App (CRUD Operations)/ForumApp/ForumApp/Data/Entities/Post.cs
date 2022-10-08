@@ -16,5 +16,8 @@
         [Required]
         [MaxLength(GlobalConstants.PostContentMaxLength)]
         public string Content { get; set; } = null!;
+
+        [Required]
+        public bool IsDeleted { get; set; }
     }
 }

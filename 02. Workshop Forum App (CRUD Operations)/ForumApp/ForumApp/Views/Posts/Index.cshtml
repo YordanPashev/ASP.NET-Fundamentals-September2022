@@ -6,10 +6,17 @@
     ViewBag.Title = "All Posts";
 }
 
+@if (@ViewBag.UserMessage != null)
+{
+    <h1 class="text-center">
+        <strong style="color: red; background-color: yellow; font-weight; border-radius: 5px">@ViewBag.UserMessage</strong>
+    </h1>
+}
+
 <h2 class="text-center"><strong>@ViewBag.Title</strong></h2>
 <hr />
-<div class="d-grid gap-2 mb-2">
-    <a asp-controller="Posts" asp-action="Add" class="btn btn-success">Add Post</a>
+<div class="d-grid gap-2 col-3 mx-auto">
+    <a asp-controller="Posts" asp-action="AddNewPost" class="btn btn-success" style="border: 2px solid; border-color: darkgreen">Add New Post</a>
 </div>
 
 
@@ -19,12 +26,18 @@
         @foreach (var post in Model)
         {
             <div class="col-sm-6 mt-4">
-                <div class="card" style="background-color: transparent; border: 3px solid; border-color: whitesmoke; backdrop-filter: blur(3.5px);">
+                <div class="card" style="background-color: transparent; border: 3px solid; border-radius: 15px; border-color: whitesmoke; backdrop-filter: blur(20px);">
                     <div class="card-body">
-                        <h5 class="card-title text-center" style="color: black"><strong><i>@post.Title</i></strong></h5>
-                        <p class="card-text" style="color: white">@post.Content</p>
+                        <h5 class="card-title text-center" style="color: black;">
+                            <strong style="font-size: 36px; color: black; border: 2px solid; border-color: whitesmoke; border-radius: 4px; background-color: orange">
+                                @post.Title
+                            </strong>
+                        </h5>
+                        <p class="card-text" style="color: black">
+                            <strong><i>@post.Content</i></strong>
+                        </p>
                         <div class="d-grid gap-2">
-                            <a asp-controller="Posts" asp-action="Edit" asp-route-id="@post.Id" class="btn btn-warning">Edit</a>
+                            <a asp-controller="Posts" asp-action="EditPost" asp-route-id="@post.Id" class="btn btn-primary">Edit</a>
                             <form class="mt-2" asp-controller="Posts" asp-action="Delete" asp-route-id="@post.Id">
                                 <div class="d-grid gap-2">
                                     <input type="submit" value="Delete" class="btn btn-danger mb-2" />
