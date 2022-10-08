@@ -19,7 +19,7 @@
         @foreach (var post in Model)
         {
             <div class="col-sm-6 mt-4">
-                <div class="card" style="background-color: darkgray">
+                <div class="card" style="background-color: transparent; border: 3px solid; border-color: whitesmoke; backdrop-filter: blur(3.5px);">
                     <div class="card-body">
                         <h5 class="card-title text-center" style="color: black"><strong><i>@post.Title</i></strong></h5>
                         <p class="card-text" style="color: white">@post.Content</p>
