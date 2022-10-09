@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
 using ForumApp.Data;
-using Newtonsoft.Json;
-using ForumApp.Data.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
