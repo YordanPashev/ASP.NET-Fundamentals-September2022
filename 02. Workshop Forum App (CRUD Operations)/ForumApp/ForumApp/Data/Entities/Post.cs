@@ -6,6 +6,11 @@
 
     public class Post
     {
+        public Post()
+        {
+            this.CreatedOn = DateTime.Now;
+        }
+
         [Key]
         public Guid Id { get; init; }
 
@@ -19,5 +24,12 @@
 
         [Required]
         public bool IsDeleted { get; set; }
+
+        [Required]
+        public DateTime CreatedOn { get; set; }
+
+        public DateTime? EditedOn { get; set; }
+
+        public DateTime? DeletedOn { get; set; }
     }
 }

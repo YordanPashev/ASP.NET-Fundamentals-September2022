@@ -7,7 +7,6 @@
     using ForumApp.Models.Posts;
     using ForumApp.InfraStructures;
     using ForumApp.Common;
-    using ForumApp.Data.Entities;
 
     public class PostsController : Controller
     {
@@ -48,6 +47,12 @@
             return await this.controllerExtension.AddNewPostOrReturnErrorMessage(model, context);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeletePost(Guid id)
+        {
+            return await this.controllerExtension.DeleteAndRedirectOrNotFound(id, context);
+        }
+
         [HttpGet]
         public async Task<IActionResult> EditPost(Guid id, string? userMessage = null)
         {
@@ -55,11 +60,11 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditPost(PostViewModel? model)
+        public async Task<IActionResult> EditPost(PostViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                if (model?.Id == null)
+                if (model == null)
                 {
                     return this.RedirectToAction("Index", "Posts", new { userMessage = GlobalConstants.NoPostFoundMessage });
                 }
@@ -73,14 +78,19 @@
         private async Task<PostViewModel[]> GettAllActivePostsAsNoTracking()
         {
             return await context.Posts
-                 .AsNoTracking()
-                 .Select(p => new PostViewModel()
-                 {
-                     Id = p.Id,
-                     Title = p.Title,
-                     Content = p.Content,
-                 })
-                 .ToArrayAsync();
+                            .AsNoTracking()
+                            .Select(p => new PostViewModel()
+                            {
+                                Id = p.Id,
+                                Title = p.Title,
+                                Content = p.Content,
+                                IsDeleted = p.IsDeleted,
+                                CreatedOn = p.CreatedOn,
+                                EditedOn = p.EditedOn
+                            })
+                            .Where(p => p.IsDeleted == false)
+                            .OrderByDescending(p => p.EditedOn == null ? p.CreatedOn : p.EditedOn)
+                            .ToArrayAsync();
         }
     }
 }

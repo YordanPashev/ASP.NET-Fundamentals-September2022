@@ -1,5 +1,5 @@
 ﻿@using ForumApp.Models.Posts
-
+@using ForumApp.Common
 @model PostViewModel[]
 
 @{
@@ -29,18 +29,24 @@
                 <div class="card" style="background-color: transparent; border: 3px solid; border-radius: 15px; border-color: whitesmoke; backdrop-filter: blur(20px);">
                     <div class="card-body">
                         <h5 class="card-title text-center" style="color: black;">
-                            <strong style="font-size: 36px; color: black; border: 2px solid; border-color: whitesmoke; border-radius: 4px; background-color: orange">
+                            <strong style="font-size: 36px; color: black">
                                 @post.Title
                             </strong>
                         </h5>
-                        <p class="card-text" style="color: black">
+                        <h6 style="text-align: center; color: whitesmoke">Published on: @post.CreatedOn.ToString(GlobalConstants.DefaultDateTimeFormat)</h6>
+                        @if (post.EditedOn.HasValue)
+                        {
+                            <h6 style="text-align: center; color: whitesmoke">Edited on: @post.EditedOn?.ToString(GlobalConstants.DefaultDateTimeFormat)</h6>
+                        }
+                        <p class="card-text" style="color: greenyellow">
                             <strong><i>@post.Content</i></strong>
                         </p>
                         <div class="d-grid gap-2">
                             <a asp-controller="Posts" asp-action="EditPost" asp-route-id="@post.Id" class="btn btn-primary">Edit</a>
-                            <form class="mt-2" asp-controller="Posts" asp-action="Delete" asp-route-id="@post.Id">
+                            <form class="mt-2" asp-controller="Posts" asp-action="DeletePost" asp-route-id="@post.Id">
                                 <div class="d-grid gap-2">
-                                    <input type="submit" value="Delete" class="btn btn-danger mb-2" />
+                                    <input type="submit" value="Delete" class="btn btn-danger mb-2" 
+                                     onclick="return confirm('Are you sure you want to delete post: @post.Title?')"/>
                                 </div>
                             </form>
                         </div>
@@ -53,5 +59,5 @@
 }
 else
 {
-    <p class="text-center">No posts yet!</p>
+    <H1 class="text-center">No posts yet!</H1>
 }

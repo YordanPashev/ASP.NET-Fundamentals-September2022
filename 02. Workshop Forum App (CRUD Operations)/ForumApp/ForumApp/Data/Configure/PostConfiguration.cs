@@ -2,10 +2,9 @@
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using Newtonsoft.Json;
 
     using ForumApp.Data.Entities;
-    using System;
-    using Newtonsoft.Json;
 
     public class PostConfiguration : IEntityTypeConfiguration<Post>
     {
@@ -20,7 +19,7 @@
             string filePath = "Data/InitialData/InitialPosts.json";
             string json = File.ReadAllText(filePath);
 
-            Post[] initialPosts = JsonConvert.DeserializeObject<Post[]>(json);
+            Post[]? initialPosts = JsonConvert.DeserializeObject<Post[]>(json);
 
             return initialPosts.ToList();
         }

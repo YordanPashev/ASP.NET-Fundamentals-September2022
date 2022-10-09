@@ -18,5 +18,15 @@
         [MinLength(GlobalConstants.PostContentMinLength)]
         [MaxLength(GlobalConstants.PostContentMaxLength)]
         public string Content { get; set; } = null!;
+
+        [Required]
+        public bool IsDeleted { get; set; }
+
+        [Required]
+        public DateTime CreatedOn { get; set; }
+
+        public DateTime? EditedOn { get; set; }
+
+        public DateTime? DeletedOn { get; set; }
     }
 }
