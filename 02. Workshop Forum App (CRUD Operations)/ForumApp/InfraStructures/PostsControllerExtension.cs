@@ -99,7 +99,7 @@
                 Title = model.Title,
                 Content = model.Content,
                 CreatedOn = DateTime.Now,
-                UserName = model.UserName
+                Author = model.Author
             };
 
             await context.Posts.AddAsync(newPost);

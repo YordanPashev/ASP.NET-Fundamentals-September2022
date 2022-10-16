@@ -30,6 +30,6 @@
         public DateTime? DeletedOn { get; set; }
 
         [Required]
-        public string UserName { get; set; } = null!;
+        public string Author { get; set; } = null!;
     }
 }

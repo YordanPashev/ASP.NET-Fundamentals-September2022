@@ -96,7 +96,7 @@
                                 IsDeleted = p.IsDeleted,
                                 CreatedOn = p.CreatedOn,
                                 EditedOn = p.EditedOn,
-                                UserName = p.UserName
+                                Author = p.Author
                             })
                             .Where(p => p.IsDeleted == false)
                             .OrderByDescending(p => p.EditedOn == null ? p.CreatedOn : p.EditedOn)

@@ -34,7 +34,7 @@
                             </strong>
                         </h5>
                         <h6 class="card-text" style="text-align: center; color: white">
-                            <i>Author: </i><strong>@post.UserName</strong>
+                            <i>Author: </i><strong>@post.Author</strong>
                         </h6>
                         <h6 style="text-align: center; color: white">
                             <i>Published on:</i> <strong>@post.CreatedOn.ToString(GlobalConstants.DefaultDateTimeFormat)</strong>
@@ -46,7 +46,7 @@
                         <p class="card-text" style="color: greenyellow">
                             <strong><i>@post.Content</i></strong>
                         </p>
-                        @if(@User.Identity.Name != null && post.UserName == User.Identity.Name)
+                        @if(@User.Identity.Name != null && post.Author == User.Identity.Name)
                         {
                          <div class="d-grid gap-2">
                             <a asp-controller="Posts" asp-action="EditPost" asp-route-id="@post.Id" class="btn btn-primary">Edit</a>
@@ -66,5 +66,5 @@
 }
 else
 {
-    <H1 class="text-center">No posts yet!</H1>
+    <h1 class="text-center mt-3">No posts yet!</h1>
 }
