@@ -3,22 +3,22 @@
 @model PostViewModel[]
 
 @{
-    ViewBag.Title = "All Posts";
+    ViewBag.Title = $"All Posts ({@Model?.Count() ?? 0})";
 }
 
 @if (@ViewBag.UserMessage != null)
 {
     <h1 class="text-center">
-        <strong style="color: red; background-color: yellow; font-weight; border-radius: 5px">@ViewBag.UserMessage</strong>
+        <strong style="color: red; background-color: yellow; font-weight: bold; border-radius: 5px">@ViewBag.UserMessage</strong>
     </h1>
 }
 
 <h2 class="text-center"><strong>@ViewBag.Title</strong></h2>
 <hr />
+
 <div class="d-grid gap-2 col-3 mx-auto">
     <a asp-controller="Posts" asp-action="AddNewPost" class="btn btn-success" style="border: 2px solid; border-color: darkgreen">Add New Post</a>
 </div>
-
 
 @if (Model.Count() > 0)
 {
@@ -33,7 +33,12 @@
                                 @post.Title
                             </strong>
                         </h5>
-                        <h6 style="text-align: center; color: whitesmoke">Published on: @post.CreatedOn.ToString(GlobalConstants.DefaultDateTimeFormat)</h6>
+                        <h6 class="card-text" style="text-align: center; color: white">
+                            <i>Author: </i><strong>@post.UserName</strong>
+                        </h6>
+                        <h6 style="text-align: center; color: white">
+                            <i>Published on:</i> <strong>@post.CreatedOn.ToString(GlobalConstants.DefaultDateTimeFormat)</strong>
+                        </h6>
                         @if (post.EditedOn.HasValue)
                         {
                             <h6 style="text-align: center; color: whitesmoke">Edited on: @post.EditedOn?.ToString(GlobalConstants.DefaultDateTimeFormat)</h6>
@@ -41,7 +46,9 @@
                         <p class="card-text" style="color: greenyellow">
                             <strong><i>@post.Content</i></strong>
                         </p>
-                        <div class="d-grid gap-2">
+                        @if(@User.Identity.Name != null && post.UserName == User.Identity.Name)
+                        {
+                         <div class="d-grid gap-2">
                             <a asp-controller="Posts" asp-action="EditPost" asp-route-id="@post.Id" class="btn btn-primary">Edit</a>
                             <form class="mt-2" asp-controller="Posts" asp-action="DeletePost" asp-route-id="@post.Id">
                                 <div class="d-grid gap-2">
@@ -50,7 +57,7 @@
                                 </div>
                             </form>
                         </div>
-                       
+                        }
                     </div>
                 </div>
             </div>

@@ -8,7 +8,7 @@
 @if (@ViewBag.UserMessage != null)
 {
     <h1 class="text-center">
-        <strong style="color: red; background-color: yellow; font-weight; border-radius: 5px">@ViewBag.UserMessage</strong>
+        <strong style="color: red; background-color: yellow; font-weight: bold; border-radius: 5px">@ViewBag.UserMessage</strong>
     </h1>
 }    
 
@@ -28,6 +28,9 @@
                 <input asp-for="Content" class="form-control" placeholder="Write your post here...">
                 <span asp-validation-for="@Model.Content" class="small text-danger" style="color: red; background-color: yellow; font-weight: bold; font-style: italic; border-radius: 5px"></span>
             </div>
+        </div>        
+        <div>
+            <input  type="hidden" id="country" name="UserName" value="@User.Identity.Name">
         </div>
         <div class="d-grid gap-2 col-1 mx-auto">
             <input class="btn btn-success mt-3 mb-3" type="submit" value="Edit" />

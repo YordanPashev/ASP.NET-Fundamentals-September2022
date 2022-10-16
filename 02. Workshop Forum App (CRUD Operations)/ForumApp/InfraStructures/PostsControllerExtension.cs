@@ -11,7 +11,7 @@
     public class PostsControllerExtension : Controller
     {
         public async Task<IActionResult> AddNewPostOrReturnErrorMessage
-            (PostViewModel model, ForumAppDbContext context)
+            (PostViewModel model, ApplicationDbContext context)
         {
             if (IsPostAlreadyExistInDb(model, context))
             {
@@ -24,7 +24,7 @@
             return this.RedirectToAction("Index", "Posts", new { userMessage = GlobalConstants.SucessfullyAddedPostMessage});
         }
 
-        public async Task<IActionResult> DeleteAndRedirectOrNotFound(Guid id, ForumAppDbContext context)
+        public async Task<IActionResult> DeleteAndRedirectOrNotFound(Guid id, ApplicationDbContext context)
         {
 
             Post? postToEdit = await context.Posts.FirstOrDefaultAsync(p => p.Id.Equals(id) && p.IsDeleted == false);
@@ -42,7 +42,7 @@
         }
 
         public async Task<IActionResult> EditAndRedirectOrReturnNotFound
-            (PostViewModel model, ForumAppDbContext context)
+            (PostViewModel model, ApplicationDbContext context)
         {
             Post? postToEdit = await context.Posts.FirstOrDefaultAsync(p => p.Id.Equals(model.Id) && p.IsDeleted == false);
 
@@ -66,7 +66,7 @@
             return this.RedirectToAction("Index", "Posts", new { userMessage = GlobalConstants.SucessfullyEditPostMessage });
         }
 
-        public async Task<IActionResult> ViewOrNoPostFound(Guid? id, ForumAppDbContext context, string? userMessage)
+        public async Task<IActionResult> ViewOrNoPostFound(Guid? id, ApplicationDbContext context, string? userMessage)
         {
             if (userMessage != null)
             {
@@ -91,21 +91,22 @@
             return this.View(model);
         }
 
-        private async Task CreateNewPostAndAddItToDb(PostViewModel model, ForumAppDbContext context)
+        private async Task CreateNewPostAndAddItToDb(PostViewModel model, ApplicationDbContext context)
         {
             Post newPost = new Post()
             {
                 Id = new Guid(),
                 Title = model.Title,
                 Content = model.Content,
-                CreatedOn = DateTime.Now
+                CreatedOn = DateTime.Now,
+                UserName = model.UserName
             };
 
             await context.Posts.AddAsync(newPost);
             await context.SaveChangesAsync();
         }
 
-        private bool IsPostAlreadyExistInDb(PostViewModel model, ForumAppDbContext context)
+        private bool IsPostAlreadyExistInDb(PostViewModel model, ApplicationDbContext context)
         {
             if (context.Posts.Any(p => p.Title == model.Title &&
                 p.Content == model.Content && p.IsDeleted == false))

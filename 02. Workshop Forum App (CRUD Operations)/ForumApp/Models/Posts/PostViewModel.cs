@@ -28,5 +28,8 @@
         public DateTime? EditedOn { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        [Required]
+        public string UserName { get; set; } = null!;
     }
 }

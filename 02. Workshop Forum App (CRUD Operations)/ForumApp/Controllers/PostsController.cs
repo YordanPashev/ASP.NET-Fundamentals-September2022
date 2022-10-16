@@ -7,13 +7,14 @@
     using ForumApp.Models.Posts;
     using ForumApp.InfraStructures;
     using ForumApp.Common;
+    using Microsoft.AspNetCore.Identity;
 
     public class PostsController : Controller
     {
-        private readonly ForumAppDbContext context;
+        private readonly ApplicationDbContext context;
         private readonly PostsControllerExtension controllerExtension;
 
-        public PostsController(ForumAppDbContext dbContext)
+        public PostsController(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
         {
             this.controllerExtension = new PostsControllerExtension();
             this.context = dbContext;
@@ -33,7 +34,15 @@
         }
 
         [HttpGet]
-        public IActionResult AddNewPost() => this.View();
+        public IActionResult AddNewPost()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+               return this.Redirect("../Identity/Account/Login");
+            }
+
+            return this.View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> AddNewPost(PostViewModel model)
@@ -86,7 +95,8 @@
                                 Content = p.Content,
                                 IsDeleted = p.IsDeleted,
                                 CreatedOn = p.CreatedOn,
-                                EditedOn = p.EditedOn
+                                EditedOn = p.EditedOn,
+                                UserName = p.UserName
                             })
                             .Where(p => p.IsDeleted == false)
                             .OrderByDescending(p => p.EditedOn == null ? p.CreatedOn : p.EditedOn)

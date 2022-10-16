@@ -1,14 +1,13 @@
 ﻿namespace ForumApp.Data
 {
+    using ForumApp.Data.Entities;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
-    using ForumApp.Data.Entities;
-    using ForumApp.Data.Configure;
-
-    public class ForumAppDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
-        public ForumAppDbContext(DbContextOptions<ForumAppDbContext> options)
-            :base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
         {
         }
 
@@ -16,7 +15,6 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyConfiguration<Post>(new PostConfiguration()); 
             builder.Entity<Post>();
 
             base.OnModelCreating(builder);
