@@ -1,11 +1,18 @@
-﻿@*@{
+﻿@using Watchlist.Models
+
+@model AddMovieViewModel
+
+@{
     ViewBag.Title = "Add Movie";
 }
-
-<h2 class="text-center">@ViewBag.Title</h2>
+<h2 class="text-center;">@ViewBag.Title</h2>
 <hr />
 
 
+@if(ViewBag.UserErrorMessage != null)
+{
+    <h3 class="text-center" style="color:red">@ViewBag.UserErrorMessage</h3>   
+}   
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
         <form method="post">
@@ -46,8 +53,6 @@
     </div>
 </div>
 
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-*@

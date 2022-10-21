@@ -19,8 +19,8 @@
         public const int MovieDirectorMinLength = 5;
         public const int MovieDirectorMaxLength = 50;
 
-        public const decimal MovieRaitingMinValue = 5;
-        public const decimal MovieRaitingMaxValue = 20;
+        public const string MovieRaitingMinValue = "0.00";
+        public const string MovieRaitingMaxValue = "10.00";
 
         // Genre
         public const int GenreNameMinLength = 5;

@@ -1,35 +1,34 @@
-﻿namespace Watchlist.Data.Models
+﻿namespace Watchlist.Models
 {
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     using Watchlist.Common;
+    using Watchlist.Data.Models;
 
-    public class Movie
+    public class AddMovieViewModel
     {
-        [Key]
-        public int Id { get; set; }
-
         [Required]
-        [StringLength(GlobalConstants.MovieTitleMaxLength)]
+        [MinLength(GlobalConstants.MovieTitleMinLength)]
+        [MaxLength(GlobalConstants.MovieTitleMaxLength)]
         public string Title { get; set; } = null!;
 
         [Required]
-        [StringLength(GlobalConstants.MovieDirectorMaxLength)]
+        [MinLength(GlobalConstants.MovieDirectorMinLength)]
+        [MaxLength(GlobalConstants.MovieDirectorMaxLength)]
         public string Director { get; set; } = null!;
 
         [Required]
         public string ImageUrl { get; set; } = null!;
 
         [Required]
+        [Range(typeof(decimal), GlobalConstants.MovieRaitingMinValue, GlobalConstants.MovieRaitingMaxValue)]
         public decimal Rating { get; set; }
 
         [Required]
-        [ForeignKey(nameof(Genre))]
         public int GenreId { get; set; }
 
         [Required]
-        public Genre? Genre { get; set; }
+        public List<Genre> Genres { get; set; } = new List<Genre>();
 
         public List<UserMovie> UsersMovies { get; set; } = new List<UserMovie>();
     }
