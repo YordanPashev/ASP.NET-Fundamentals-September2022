@@ -6,14 +6,14 @@
     public class UserMovie
     {
         [Required]
-        [ForeignKey(nameof(User))]
+        [ForeignKey(nameof(UserId))]
         public string UserId { get; set; } = null!;
 
         [Required]
         public User User { get; set; } = null!;
 
         [Required]
-        [ForeignKey(nameof(Movie))]
+        [ForeignKey(nameof(MovieId))]
         public int MovieId { get; set; } 
 
         [Required]

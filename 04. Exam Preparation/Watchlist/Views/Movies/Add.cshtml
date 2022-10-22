@@ -5,7 +5,7 @@
 @{
     ViewBag.Title = "Add Movie";
 }
-<h2 class="text-center;">@ViewBag.Title</h2>
+<h2 style="text-align: center;">@ViewBag.Title</h2>
 <hr />
 
 
@@ -13,30 +13,31 @@
 {
     <h3 class="text-center" style="color:red">@ViewBag.UserErrorMessage</h3>   
 }   
+
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
         <form method="post">
-            <div class="mb-3">
+            <div class="mb-3" style="text-align: center;">
                 <label asp-for="@Model.Title" class="form-label">Title</label>
                 <input asp-for="@Model.Title" class="form-control" aria-required="true" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <span asp-validation-for="Title" class="text-danger" style="color: red; background-color: yellow; font-weight: bold; font-style: italic; border-radius: 5px"></span>
             </div>
-            <div class="mb-3">
+            <div class="mb-3" style="text-align: center;">
                 <label asp-for="@Model.Director" class="form-label">Director</label>
                 <input asp-for="@Model.Director" class="form-control" aria-required="true" />
-                <span asp-validation-for="Director" class="text-danger"></span>
+                <span asp-validation-for="Director" class="text-danger" style="color: red; background-color: yellow; font-weight: bold; font-style: italic; border-radius: 5px"></span>
             </div>
-            <div class="mb-3">
+            <div class="mb-3" style="text-align: center; color: white">
                 <label asp-for="@Model.ImageUrl" class="form-label">Image URL</label>
                 <input asp-for="@Model.ImageUrl" class="form-control" aria-required="true" />
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                <span asp-validation-for="ImageUrl" class="text-danger" style="color: red; background-color: yellow; font-weight: bold; font-style: italic; border-radius: 5px"></span>
             </div>
-            <div class="mb-3">
+            <div class="mb-3" style="text-align: center; color: white">
                 <label asp-for="@Model.Rating" class="form-label">Rating</label>
                 <input asp-for="@Model.Rating" class="form-control" value="" />
-                <span asp-validation-for="Rating" class="text-danger"></span>
+                <span asp-validation-for="Rating" class="text-danger" style="color: red; background-color: yellow; font-weight: bold; font-style: italic; border-radius: 5px"></span>
             </div>
-            <div class="mb-3">
+            <div class="mb-3" style="text-align: center; color: white">
                 <label asp-for="@Model.GenreId" class="form-label">Genre</label>
                 <select asp-for="@Model.GenreId" class="form-control">
                     @foreach (var genre in Model.Genres)
@@ -44,10 +45,11 @@
                         <option value="@genre.Id">@genre.Name</option>
                     }
                 </select>
-                <span asp-validation-for="GenreId" class="text-danger"></span>
+                <span asp-validation-for="GenreId" class="text-danger" style="color: red; background-color: yellow; font-weight: bold; font-style: italic; border-radius: 5px"></span>
             </div>
-            <div class="mb-3">
-                <input class="btn btn-primary" type="submit" value="Add" />
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <input class="btn btn-success" type="submit" value="Add" />
+                <input class="btn btn-dark" value="Back" onclick="history.back()"> 
             </div>
         </form>
     </div>

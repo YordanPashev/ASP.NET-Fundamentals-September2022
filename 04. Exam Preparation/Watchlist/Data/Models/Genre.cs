@@ -13,6 +13,6 @@
         [StringLength(GlobalConstants.GenreNameMaxLength)]
         public string Name { get; set; } = null!;
 
-        public Movie Movie { get; set; } = null!;
+        public virtual List<Movie> Movies { get; set; } = new List<Movie>();
     }
 }

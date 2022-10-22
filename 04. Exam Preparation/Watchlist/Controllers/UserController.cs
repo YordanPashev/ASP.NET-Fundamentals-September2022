@@ -4,7 +4,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    using Watchlist.Data;
+    using Watchlist.Data.Models;
     using Watchlist.Models;
 
     [Authorize]

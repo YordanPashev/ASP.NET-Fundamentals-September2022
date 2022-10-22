@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Watchlist.Data;
+using Watchlist.Data.Models;
 using Watchlist.Services;
 using Watchlist.Services.Contracts;
 

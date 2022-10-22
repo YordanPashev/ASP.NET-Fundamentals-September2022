@@ -25,12 +25,13 @@
         public decimal Rating { get; set; }
 
         [Required]
-        [ForeignKey(nameof(Genre))]
+        [ForeignKey(nameof(GenreId))]
+
         public int GenreId { get; set; }
 
         [Required]
         public Genre? Genre { get; set; }
 
-        public List<UserMovie> UsersMovies { get; set; } = new List<UserMovie>();
+        public virtual List<UserMovie> UsersMovies { get; set; } = new List<UserMovie>();
     }
 }

@@ -6,7 +6,12 @@
     {
         public IActionResult Index()
         {
-            return RedirectToAction("All", "Movies");
+            if (this.User?.Identity?.IsAuthenticated ?? false)
+            {
+                return RedirectToAction("All", "Movies");
+            }
+
+            return View();
         }
     }
 }

@@ -1,11 +1,9 @@
-﻿namespace Watchlist.Data
+﻿namespace Watchlist.Data.Models
 {
     using Microsoft.AspNetCore.Identity;
 
-    using Watchlist.Data.Models;
-
     public class User : IdentityUser
     {
-        public List<UserMovie> UsersMovies { get; set; } = new List<UserMovie>();
+        public virtual List<UserMovie> UsersMovies { get; set; } = new List<UserMovie>();
     }
 }
