@@ -15,6 +15,7 @@ namespace ForumApp.Controllers
 
         public IActionResult Index()
         {
+            var userName = User.Identity.Name;
             return View();
         }
 
