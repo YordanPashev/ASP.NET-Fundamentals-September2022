@@ -16,7 +16,6 @@
 
         public DbSet<Genre> Genre { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<UserMovie>()

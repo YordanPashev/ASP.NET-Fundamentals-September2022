@@ -5,12 +5,20 @@
 
     public interface IMovieService
     {
-        Task<MovieViewModel[]> GetAllMoviesAsync();
-
         Task AddMovieAsync(AddMovieViewModel model);
+
+        Task AddMovieToTheUsersCollection(string? currUserId, int selectedMovieId);
 
         Task<List<Genre>> GetAllGenresAsync();
 
-        bool IsGenreValid(int genreId);
+        Task<MovieViewModel[]> GetAllMoviesAsync();
+
+        string? GetMovieTitleById(int movieId);
+
+        Task<List<MovieViewModel>> GetAllUsersMoviesAsync(string? currUserId);
+
+        bool IsGenreExistInDb(int genreId);
+
+        Task RemoveMovieFromUsersCollectionAsync(string? currUserId, int selectedMovieId);
     }
 }

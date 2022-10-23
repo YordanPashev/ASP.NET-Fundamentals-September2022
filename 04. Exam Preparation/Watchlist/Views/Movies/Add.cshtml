@@ -3,16 +3,20 @@
 @model AddMovieViewModel
 
 @{
-    ViewBag.Title = "Add Movie";
+    ViewBag.Title = "Create Movie";
 }
-<h2 style="text-align: center;">@ViewBag.Title</h2>
-<hr />
-
 
 @if(ViewBag.UserErrorMessage != null)
 {
-    <h3 class="text-center" style="color:red">@ViewBag.UserErrorMessage</h3>   
+    <h3 class="text-center" style="color: red;">
+        <strong style="background-color: yellow; border: 4px solid; border-color: green; border-radius: 5px">
+            @ViewBag.UserErrorMessage
+        </strong>
+    </h3> 
 }   
+
+<h2 class="text-center"><strong><i>@ViewBag.Title</i></strong></h2>
+<hr />
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
