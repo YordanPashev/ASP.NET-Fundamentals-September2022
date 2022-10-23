@@ -50,7 +50,9 @@
                 ImageUrl = m.ImageUrl,
                 Rating = m.Rating,
                 Genre = m.Genre.Name             
-            }).ToArray();
+            })
+            .OrderBy(m => m.Title)
+            .ToArray();
         }
     }
 }
