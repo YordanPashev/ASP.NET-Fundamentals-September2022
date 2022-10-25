@@ -62,7 +62,7 @@
             try
             {
                 await this.movieService.AddMovieAsync(model);
-                return this.RedirectToAction("All", "Movies");
+                return this.RedirectToAction("All", "Movies", new  { userMessage = $"{model.Title} has been added to the collection."});
             }
             catch (Exception)
             {
@@ -84,7 +84,7 @@
             }
 
             string? addedMovieTitle = this.movieService.GetMovieTitleById(movieId);
-            return this.RedirectToAction("All", "Movies", new { userMessage = $"You successfully added {addedMovieTitle} to your collection."});
+            return this.RedirectToAction("All", "Movies", new { userMessage = $"You successfully added {addedMovieTitle} to your Watchlist."});
         }
 
         [HttpGet]
@@ -127,7 +127,7 @@
             }
 
             string? removedMovieTitle = this.movieService.GetMovieTitleById(movieId);
-            return this.RedirectToAction("Watched", "Movies", new { userMessage = $"You successfully removed {removedMovieTitle} from your collection." });
+            return this.RedirectToAction("Watched", "Movies", new { userMessage = $"You successfully removed {removedMovieTitle} from your Watchlist." });
         }
     }
 }

@@ -53,7 +53,7 @@
 
             if (user.UsersMovies.Any(um => um.MovieId == selectedMovieId))
             {
-                throw new ArgumentException("The Movie already exist in your collection!");
+                throw new ArgumentException("The Movie already exist in your Watchlist!");
             }
 
             user.UsersMovies.Add(new UserMovie()
@@ -100,11 +100,11 @@
                 throw new ArgumentException("Invalid User ID!");
             }
 
-            List<MovieViewModel> usersBooks = new List<MovieViewModel>();
+            List<MovieViewModel> usersWatchlist = new List<MovieViewModel>();
 
             foreach (var um in user.UsersMovies)
             {
-                MovieViewModel currBookToAdd = new MovieViewModel()
+                MovieViewModel movie = new MovieViewModel()
                 {
                     Id = um.Movie.Id,
                     Title = um.Movie.Title,
@@ -114,10 +114,10 @@
                     Genre = um.Movie.Genre.Name
                 };
 
-                usersBooks.Add(currBookToAdd);
+                usersWatchlist.Add(movie);
             }
 
-            return usersBooks;
+            return usersWatchlist.OrderBy(m => m.Title).ToList();
         }
 
         public string? GetMovieTitleById(int movieId)
