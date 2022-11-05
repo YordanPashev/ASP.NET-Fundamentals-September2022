@@ -4,6 +4,7 @@
     using Microsoft.EntityFrameworkCore;
 
     using TaskBoardApp.Data.Entities;
+
     public class TaskBoardDbContext : IdentityDbContext<User>
     {
         public TaskBoardDbContext(DbContextOptions<TaskBoardDbContext> options)
@@ -12,9 +13,9 @@
             this.Database.Migrate();
         }
 
-        DbSet<Task> Tasks { get; set; }
+        public DbSet<Task> Tasks { get; set; }
 
-        DbSet<Board> Boards { get; set; }
+        public DbSet<Board> Boards { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -110,6 +110,7 @@ namespace TaskBoardApp.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
                 if (result.Succeeded)
                 {
                     await this._signInManager.SignInAsync(user, isPersistent: false);
