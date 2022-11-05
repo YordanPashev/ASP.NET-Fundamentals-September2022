@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 
 using TaskBoardApp.Data;
 using TaskBoardApp.Data.Entities;
+using TaskBoardApp.Services;
+using TaskBoardApp.Services.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<TaskBoardDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddScoped<IBoardsService, BoardsService>();
 
 builder.Services.AddDefaultIdentity<User>(options =>
 {
@@ -19,7 +22,7 @@ builder.Services.AddDefaultIdentity<User>(options =>
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/User/Login";
+    options.LoginPath = "/Identity/Account/Login";
 });
 
 builder.Services.AddControllersWithViews();

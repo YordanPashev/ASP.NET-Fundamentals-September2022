@@ -19,5 +19,8 @@
         // Board
         public const int BoardNameMinLength = 3;
         public const int BoardNameMaxLength = 30;
+
+        // User Messages
+        public const string NewBoardAddedMessage = "A new board has been added";
     }
 }

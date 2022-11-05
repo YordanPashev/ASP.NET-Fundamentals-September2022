@@ -1,0 +1,31 @@
+﻿@model CreateBoardViewModel
+
+@{
+    ViewData["Title"] = "Create Board";
+}
+
+<div class="row">
+    <div class="col-md-6 mx-auto" style="text-align: center; backdrop-filter: blur(4px); border: 2px solid; border-color: #EFCFC3; border-radius: 35px">
+        <section>
+            <h1 style="color: #EFCFC3; text-align: center; font-weight: bold;">@ViewData["Title"]</h1>
+            @if(@ViewBag.UserMessage != null)
+            {
+                <h2  style="color: darkred; background-color: green; border-radius: 5px;">@ViewBag.UserMessage</h2>
+            }
+            <hr />
+            <form id="account" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-floating">
+                    <input asp-for="@Model.Name" class="form-control mt-2" autocomplete="Board Nmae" aria-required="true" />
+                    <label asp-for="@Model.Name" class="form-label"></label>
+                    <span asp-validation-for="@Model.Name" class="text-danger" style="background-color: yellow; border-radius: 5px"></span>
+                </div>
+                <button id="registerSubmit" type="submit" class="w-100 btn btn-lg bg-success mt-3 mb-5" style="color: white">Create</button>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

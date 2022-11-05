@@ -5,8 +5,8 @@
     ViewData["Title"] = "Register";
 }
 
-<div class="row" style="text-align: center; backdrop-filter: blur(4px); border: 2px solid; border-color: #EFCFC3; border-radius: 35px">
-    <div class="col-md-6 mx-auto">
+<div class="row">
+    <div class="col-md-6 mx-auto" style="text-align: center; backdrop-filter: blur(4px); border: 2px solid; border-color: #EFCFC3; border-radius: 35px">
         <h1 style="color: #EFCFC3; text-align: center; font-weight: bold;">@ViewData["Title"]</h1>
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h2 style="color: #EFCFC3; font-style: italic;">Create a new account.</h2>
@@ -42,7 +42,7 @@
                 <label asp-for="Input.LastName"></label>
                 <span asp-validation-for="Input.LastName" class="text-danger" style="background-color: yellow; border-radius: 5px"></span>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg bg-success mt-3 mb-5" style="color: white">Register</button>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg bg-success mt-3 mb-4" style="color: white">Register</button>
         </form>
     </div>
 </div>
