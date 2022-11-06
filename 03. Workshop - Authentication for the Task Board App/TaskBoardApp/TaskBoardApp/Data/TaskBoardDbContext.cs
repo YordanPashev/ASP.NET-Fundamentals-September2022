@@ -3,15 +3,12 @@
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
-    using TaskBoardApp.Data.Entities;
+    using Data.Entities;
 
     public class TaskBoardDbContext : IdentityDbContext<User>
     {
         public TaskBoardDbContext(DbContextOptions<TaskBoardDbContext> options)
-            : base(options)
-        {
-            this.Database.Migrate();
-        }
+            : base(options) => this.Database.Migrate();
 
         public DbSet<Task> Tasks { get; set; }
 

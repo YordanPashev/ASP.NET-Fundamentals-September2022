@@ -3,9 +3,9 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
-    using TaskBoardApp.Common;
-    using TaskBoardApp.Models;
-    using TaskBoardApp.Services.Contracts;
+    using Common;
+    using Models;
+    using Services.Contracts;
 
     [Authorize]
     public class BoardsController : Controller

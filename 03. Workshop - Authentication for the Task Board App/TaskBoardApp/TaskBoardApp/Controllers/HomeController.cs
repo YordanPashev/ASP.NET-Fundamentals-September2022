@@ -4,7 +4,7 @@
 
     using Microsoft.AspNetCore.Mvc;
 
-    using TaskBoardApp.Models;
+    using Models;
 
     public class HomeController : Controller
     {

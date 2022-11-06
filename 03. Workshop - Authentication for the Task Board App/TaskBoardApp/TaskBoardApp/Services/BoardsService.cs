@@ -4,9 +4,9 @@
 
     using Microsoft.EntityFrameworkCore;
 
-    using TaskBoardApp.Data;
-    using TaskBoardApp.Data.Entities;
-    using TaskBoardApp.Services.Contracts;
+    using Data;
+    using Data.Entities;
+    using Services.Contracts;
 
     public class BoardsService : IBoardsService
     {

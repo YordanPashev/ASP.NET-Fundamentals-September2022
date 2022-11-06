@@ -3,7 +3,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    using TaskBoardApp.Common;
+    using Common;
 
     public class Task
     {
@@ -21,13 +21,14 @@
         [Required]
         public DateTime CreatedOn { get; set; }
 
+        [Required]
+        [ForeignKey(nameof(Board))]
         public Guid BoardId { get; set; }
+        public Board Board { get; set; } = null!;
 
         [Required]
         [ForeignKey(nameof(Owner))]
         public string OwnerId { set; get; } = null!;
-
-        [Required]
         public User Owner { get; set; } = null!;
     }
 }

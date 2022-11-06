@@ -25,8 +25,11 @@
                         </li>
                         @if(@User?.Identity?.IsAuthenticated ?? false)
                         {
-                             <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Boards" asp-action="Index">Boards</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Tasks" asp-action="Index">Tasks</a>
                         </li>
                         }
                     </ul>
