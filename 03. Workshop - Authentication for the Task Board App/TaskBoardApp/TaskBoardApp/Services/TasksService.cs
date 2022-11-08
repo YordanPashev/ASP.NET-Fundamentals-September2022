@@ -5,6 +5,8 @@
 
     using Data;
     using Services.Contracts;
+    using Models;
+    using Data.Entities;
 
     public class TasksService : ITasksService
     {
@@ -13,16 +15,42 @@
         public TasksService(TaskBoardDbContext dbcontext)
             => this.context = dbcontext;
 
-        public Task CreateNewTask(string boardName)
+        public async System.Threading.Tasks.Task CreateNewTask(CreateTaskViewModel model)
         {
-            throw new NotImplementedException();
+            User? owner = await this.context.Users.FirstOrDefaultAsync(u => u.UserName == model.OwnerUsername);
+
+            Data.Entities.Task task = new Data.Entities.Task()
+            {
+                Id = new Guid(),
+                Title = model.Title,
+                Description = model.Description,
+                CreatedOn = DateTime.Now,
+                BoardId = model.BoardId,
+                OwnerId = owner.Id,
+            };
+
+            await this.context.Tasks.AddAsync(task);
+            await this.context.SaveChangesAsync();
         }
 
-        public async Task<Data.Entities.Task[]> GetAllTasks()
+        public async Task<List<TaskViewModel>> GetAllTasks()
             => await this.context.Tasks
-                        .Include(t => t.Owner)
-                        .Include(t => t.Board)
-                        .OrderBy(t=> t.Title)
-                        .ToArrayAsync();
+                            .Include(t => t.Owner)
+                            .Include(t => t.Board)
+                            .Select(t => 
+                                new TaskViewModel()
+                                {
+                                    Id = t.Id,
+                                    Title = t.Title,
+                                    Description = t.Description,
+                                    CreatedOn = t.CreatedOn,
+                                    BoardName = t.Board.Name,
+                                    OwnerUsername = t.Owner.UserName
+                                })
+                            .OrderBy(t => t.Title)
+                            .ToListAsync();
+
+        public async Task<bool> IsBoardExists(Guid boardId)
+            => await this.context.Boards.AnyAsync(b => b.Id == boardId);
     }
 }

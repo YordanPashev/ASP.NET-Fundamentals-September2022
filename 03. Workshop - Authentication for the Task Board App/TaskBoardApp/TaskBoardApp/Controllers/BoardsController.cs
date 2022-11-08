@@ -19,7 +19,7 @@
         public async Task<IActionResult> Index(string? userMessage = null)
         {
             this.ViewBag.UserMessage = userMessage;
-            string[] model = await this.boardsService.GetAllBoards();
+            List<string> model = await this.boardsService.GetAllBoardsNames();
 
             return this.View(model);
         }

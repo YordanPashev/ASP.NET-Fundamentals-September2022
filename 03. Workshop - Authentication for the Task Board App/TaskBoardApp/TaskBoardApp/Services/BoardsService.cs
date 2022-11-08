@@ -6,6 +6,7 @@
 
     using Data;
     using Data.Entities;
+    using Models;
     using Services.Contracts;
 
     public class BoardsService : IBoardsService
@@ -27,7 +28,17 @@
             await this.context.SaveChangesAsync();
         }
 
-        public async Task<string[]> GetAllBoards()
-            => await this.context.Boards.Select(b => b.Name).OrderBy(b => b).ToArrayAsync();
+        public async Task<List<BoardViewModel>> GetAllBoards()
+           => await this.context.Boards.Select(b => 
+                                    new BoardViewModel()
+                                    {
+                                        Id = b.Id,
+                                        Name = b.Name,
+                                    })
+                                .OrderBy(b => b.Name)
+                                .ToListAsync();
+
+        public async Task<List<string>> GetAllBoardsNames()
+            => await this.context.Boards.Select(b => b.Name).OrderBy(b => b).ToListAsync();
     }
 }

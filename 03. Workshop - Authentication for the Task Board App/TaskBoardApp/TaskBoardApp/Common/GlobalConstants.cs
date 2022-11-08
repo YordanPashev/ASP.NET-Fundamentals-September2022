@@ -22,5 +22,8 @@
 
         // User Messages
         public const string NewBoardAddedMessage = "A new board has been added";
+        public const string NewTaskAddedMessage = "A new task has been added";
+        public const string InvalidDataMessage = "Invalid data!";
+        public const string InvalidBoardMessage = "Invalid board!";
     }
 }

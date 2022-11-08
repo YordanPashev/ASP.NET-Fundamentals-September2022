@@ -28,7 +28,7 @@
 
         [Required]
         [ForeignKey(nameof(Owner))]
-        public string OwnerId { set; get; } = null!;
+        public string OwnerId { set; get; }
         public User Owner { get; set; } = null!;
     }
 }

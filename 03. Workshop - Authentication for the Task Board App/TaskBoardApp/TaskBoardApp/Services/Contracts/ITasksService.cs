@@ -1,9 +1,13 @@
 ﻿namespace TaskBoardApp.Services.Contracts
 {
+    using Models;
+
     public interface ITasksService
     {
-        Task<Data.Entities.Task[]> GetAllTasks();
+        Task<List<TaskViewModel>> GetAllTasks();
 
-        Task CreateNewTask(string boardName);
+        Task<bool> IsBoardExists(Guid boardId);
+
+        Task CreateNewTask(CreateTaskViewModel model);
     }
 }
