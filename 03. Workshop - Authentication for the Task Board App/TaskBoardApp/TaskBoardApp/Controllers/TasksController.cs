@@ -37,6 +37,11 @@
         [HttpGet]
         public async Task<IActionResult> Create(string userMessage)
         {
+            if (userMessage != null)
+            {
+                this.ViewBag.UserMessage = userMessage;
+            }
+
             CreateTaskViewModel model = new CreateTaskViewModel()
             {
                 ExistingBoards = await this.boardsService.GetAllBoards(),

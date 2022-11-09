@@ -4,6 +4,13 @@
     ViewData["Title"] = "Create Task";
 }
 
+@if(@ViewBag.UserMessage != null)
+{
+    <h3><i style="color: yellow; background-color: yellow; border-radius: 5px;">
+        @ViewBag.UserMessage</i>
+    </h3>
+}
+
 <div class="row">
     <div class="col-md-6 mx-auto" style="text-align: center; backdrop-filter: blur(4px); border: 2px solid; border-color: #EFCFC3; border-radius: 35px">
         <section>

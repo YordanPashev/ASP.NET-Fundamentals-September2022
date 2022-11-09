@@ -18,6 +18,11 @@
         [HttpGet]
         public async Task<IActionResult> Index(string? userMessage = null)
         {
+            if (userMessage != null)
+            {
+                this.ViewBag.UserMessage = userMessage;
+            }
+
             this.ViewBag.UserMessage = userMessage;
             List<string> model = await this.boardsService.GetAllBoardsNames();
 
@@ -27,7 +32,10 @@
         [HttpGet]
         public IActionResult Create(string? userMessage = null)
         {
-            this.ViewBag.UserMessage = userMessage;
+            if (userMessage != null)
+            {
+                this.ViewBag.UserMessage = userMessage;
+            }
 
             return this.View(new CreateBoardViewModel());
         }
