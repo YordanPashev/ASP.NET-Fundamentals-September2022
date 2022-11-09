@@ -7,6 +7,7 @@
     using Services.Contracts;
     using Models;
     using Data.Entities;
+    using Common;
 
     public class TasksService : ITasksService
     {
@@ -43,7 +44,7 @@
                                     Id = t.Id,
                                     Title = t.Title,
                                     Description = t.Description,
-                                    CreatedOn = t.CreatedOn,
+                                    CreatedOn = t.CreatedOn.ToString(GlobalConstants.TaskDateTimeFormat),
                                     BoardName = t.Board.Name,
                                     OwnerUsername = t.Owner.UserName
                                 })

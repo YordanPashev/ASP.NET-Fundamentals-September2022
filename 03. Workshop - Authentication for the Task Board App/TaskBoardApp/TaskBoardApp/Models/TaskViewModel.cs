@@ -8,7 +8,7 @@
 
         public string Description { get; set; } = null!;
         
-        public DateTime CreatedOn { get; set; }
+        public string? CreatedOn { get; set; }
       
         public string BoardName { get; set; } = null!;
 

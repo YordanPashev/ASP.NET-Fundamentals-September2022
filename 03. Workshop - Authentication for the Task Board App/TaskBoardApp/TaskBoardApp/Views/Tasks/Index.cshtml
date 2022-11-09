@@ -15,24 +15,23 @@
     }
     else
     {
-        <table class="table table-hover" style="color: whitesmoke; text-align: center; backdrop-filter: blur(15px); border: 2px solid; border-color: #EFCFC3; border-radius: 35px">
+        <table class="table table-hover" style="color: black; text-align: center; backdrop-filter: blur(35px); border: 2px solid; border-color: #EFCFC3; background-color: darkgray;">
             <thead>
                 <tr>
                     <th style="text-align:center">Title</th>
-                    <th></th>
-                    <th style="text-align:end">Status</th>
-                    <th style="text-align:end">Description</th>
-                    <th style="text-align:end">Created on</th>
+                    <th style="text-align:center">Status</th>
+                    <th style="text-align:center">Description</th>
+                    <th style="text-align:center">Created on</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var task in @Model)
                 {
                     <tr name="trData" onclick="location.href='@Url.Action("Details", "Tasks", new { task.Id })'">
-                        <td>@Html.DisplayFor(modelItem => task.Title)</td>
-                        <td style="text-align:end">@Html.DisplayFor(modelItem => task.BoardName)</td>
-                        <td style="text-align:end">@Html.DisplayFor(modelItem => task.Description)</td>
-                        <td style="text-align:end">@Html.DisplayFor(modelItem => task.CreatedOn)</td>
+                        <td style="text-align: center">@Html.DisplayFor(modelItem => task.Title)</td>
+                        <td style="text-align:center">@Html.DisplayFor(modelItem => task.BoardName)</td>
+                        <td style="text-align:center">@Html.DisplayFor(modelItem => task.Description)</td>
+                        <td style="text-align:center">@Html.DisplayFor(modelItem => task.CreatedOn)</td>
                     </tr>
                 }
             </tbody>
