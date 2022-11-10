@@ -4,7 +4,7 @@
 
     public interface ITasksService
     {
-        Task<List<TaskViewModel>> GetAllTasks();
+        Task<List<TaskViewModel>> GetUsersTasks(string? userName);
 
         Task<bool> IsBoardExists(Guid boardId);
 

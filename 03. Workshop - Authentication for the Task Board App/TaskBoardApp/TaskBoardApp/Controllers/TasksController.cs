@@ -1,12 +1,13 @@
 ﻿namespace TaskBoardApp.Controllers
 {
+    using System;
+
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
 
     using Common;
     using Models;
     using Services.Contracts;
-    using System;
 
     [Authorize]
     public class TasksController : Controller
@@ -28,8 +29,8 @@
             {
                 this.ViewBag.UserMessage = userMessage;
             }
-
-            List<TaskViewModel> model = await this.tasksService.GetAllTasks();
+            
+            List<TaskViewModel> model = await this.tasksService.GetUsersTasks(User?.Identity?.Name);
 
             return this.View(model);
         }
@@ -65,6 +66,7 @@
 
             model.OwnerUsername = this.User.Identity.Name;
             await this.tasksService.CreateNewTask(model);
+
             return this.RedirectToAction("Index", "Tasks", new { userMessage = GlobalConstants.NewTaskAddedMessage});
         }
 

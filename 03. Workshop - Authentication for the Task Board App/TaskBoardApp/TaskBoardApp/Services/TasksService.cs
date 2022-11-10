@@ -34,22 +34,27 @@
             await this.context.SaveChangesAsync();
         }
 
-        public async Task<List<TaskViewModel>> GetAllTasks()
-            => await this.context.Tasks
-                            .Include(t => t.Owner)
-                            .Include(t => t.Board)
-                            .Select(t => 
-                                new TaskViewModel()
-                                {
-                                    Id = t.Id,
-                                    Title = t.Title,
-                                    Description = t.Description,
-                                    CreatedOn = t.CreatedOn.ToString(GlobalConstants.TaskDateTimeFormat),
-                                    BoardName = t.Board.Name,
-                                    OwnerUsername = t.Owner.UserName
-                                })
-                            .OrderBy(t => t.Title)
-                            .ToListAsync();
+        public async Task<List<TaskViewModel>> GetUsersTasks(string? userName)
+        {
+            User? user = this.context.Users.FirstOrDefault(u => u.UserName == userName);
+                
+            return await this.context.Tasks
+                                .Include(t => t.Board)
+                                .Where(t => t.OwnerId == user.Id)
+                                .Select(t =>
+                                    new TaskViewModel()
+                                    {
+                                        Id = t.Id,
+                                        Title = t.Title,
+                                        Description = t.Description,
+                                        CreatedOn = t.CreatedOn.ToString(GlobalConstants.TaskDateTimeFormat),
+                                        BoardName = t.Board.Name,
+                                        OwnerUsername = t.Owner.UserName
+                                    })
+                                .OrderBy(t => t.Title)
+                                .ToListAsync();
+        }
+           
 
         public async Task<bool> IsBoardExists(Guid boardId)
             => await this.context.Boards.AnyAsync(b => b.Id == boardId);
