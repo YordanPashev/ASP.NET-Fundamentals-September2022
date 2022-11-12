@@ -34,9 +34,16 @@
             await this.context.SaveChangesAsync();
         }
 
+        public async Task<bool> IsBoardExistsAsync(Guid boardId)
+            => await this.context.Boards.AnyAsync(b => b.Id == boardId);
+
+
+        public async Task<int> GetAllTasksCount()
+            => await this.context.Tasks.CountAsync();
+
         public async Task<List<TaskViewModel>> GetUsersTasksAsync(string? userName)
         {
-            User? user = this.context.Users.FirstOrDefault(u => u.UserName == userName); 
+            User? user = this.context.Users.FirstOrDefault(u => u.UserName == userName);
 
             return await this.context.Tasks
                                 .Include(t => t.Board)
@@ -54,8 +61,12 @@
                                 .OrderBy(t => t.Title)
                                 .ToListAsync();
         }
-           
-        public async Task<bool> IsBoardExistsAsync(Guid boardId)
-            => await this.context.Boards.AnyAsync(b => b.Id == boardId);
+
+        public async Task<int> GetUsersTasksCountAsync(string userName)
+        {
+            User? user = this.context.Users.FirstOrDefault(u => u.UserName == userName);
+
+            return await this.context.Tasks.Where(t => t.OwnerId == user.Id).CountAsync();
+        } 
     }
 }

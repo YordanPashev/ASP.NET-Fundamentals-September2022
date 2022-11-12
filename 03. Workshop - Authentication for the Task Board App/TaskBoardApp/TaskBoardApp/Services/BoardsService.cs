@@ -28,7 +28,20 @@
             await this.context.SaveChangesAsync();
         }
 
-        public async Task<List<BoardTasksViewModel>> GetBoardTasksAsync()
+        public async Task<List<BoardViewModel>> GetAllBoardsAsync()
+           => await this.context.Boards
+                            .Select(b => new BoardViewModel() { Id = b.Id, Name = b.Name, })
+                            .OrderBy(b => b.Name)
+                            .ToListAsync();
+
+        public async Task<List<string>> GetAllBoardsNamesAsync()
+            => await this.context.Boards
+                            .Select(b => b.Name)
+                            .OrderBy(b => b)
+                            .ToListAsync();
+
+
+        public async Task<List<BoardTasksViewModel>> GetBoardsWithThierTasksAsync()
         {
             List<string> boardsNames = new List<string>();
 
@@ -37,7 +50,7 @@
                             .Select(b => new BoardTasksViewModel()
                             {
                                 BoardName = b.Name,
-                                UserTasksCount = b.Tasks.Count()
+                                TasksCount = b.Tasks.Count()
                             })
                             .OrderBy(b => b.BoardName)
                             .ToListAsync();
@@ -53,22 +66,10 @@
                             .Select(b => new BoardTasksViewModel()
                             {
                                 BoardName = b.Name,
-                                UserTasksCount = b.Tasks.Where(t => t.OwnerId == user.Id).Count()      
+                                TasksCount = b.Tasks.Where(t => t.OwnerId == user.Id).Count()      
                             })
                             .OrderBy(b => b.BoardName)
                             .ToListAsync();
         }
-
-        public async Task<List<BoardViewModel>> GetAllBoardsAsync()
-           => await this.context.Boards
-                            .Select(b => new BoardViewModel(){ Id = b.Id,Name = b.Name, })
-                            .OrderBy(b => b.Name)
-                            .ToListAsync();
-
-        public async Task<List<string>> GetAllBoardsNamesAsync()
-            => await this.context.Boards
-                            .Select(b => b.Name)
-                            .OrderBy(b => b)
-                            .ToListAsync();
     }
 }

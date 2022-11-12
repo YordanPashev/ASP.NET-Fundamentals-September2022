@@ -4,10 +4,14 @@
 
     public interface ITasksService
     {
-        Task<List<TaskViewModel>> GetUsersTasksAsync(string? userName);
+        Task CreateNewTaskAsync(CreateTaskViewModel model);
 
         Task<bool> IsBoardExistsAsync(Guid boardId);
 
-        Task CreateNewTaskAsync(CreateTaskViewModel model);
+        Task<int> GetAllTasksCount();
+
+        Task<List<TaskViewModel>> GetUsersTasksAsync(string? userName);
+
+        Task<int> GetUsersTasksCountAsync(string userName);
     }
 }

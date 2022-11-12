@@ -4,7 +4,6 @@
 
     using Microsoft.AspNetCore.Mvc;
 
-    using Data.Entities;
     using Models;
     using Services.Contracts;
 
@@ -12,18 +11,31 @@
     {
 
         private readonly IBoardsService boardsService;
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> logger;
+        private readonly ITasksService tasksService;
 
-        public HomeController(ILogger<HomeController> logger, IBoardsService _boardsService)
+        public HomeController(ILogger<HomeController> _logger, IBoardsService _boardsService, ITasksService _tasksService)
         {
-            this._logger = logger;
+            this.logger = _logger;
             this.boardsService = _boardsService;
+            this.tasksService = _tasksService;
         }
 
         public async Task<IActionResult> Index()
         {
-            List<BoardTasksViewModel> model = await this.boardsService.GetBoardTasksAsync();
-            return this.View();
+            if (this.User?.Identity?.IsAuthenticated ?? false)
+            {
+                AllBoardTasksWithUserTasksCountViewModel model = new AllBoardTasksWithUserTasksCountViewModel()
+                {
+                    BoardTasks = await this.boardsService.GetBoardsWithThierTasksAsync(),
+                    UsersTasksCount = await this.tasksService.GetUsersTasksCountAsync(User?.Identity?.Name),
+                    AllTasksCount = await this.tasksService.GetAllTasksCount(),
+                };
+
+                return this.View(model);
+            }
+
+            return this.View(new List<BoardTasksViewModel>());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

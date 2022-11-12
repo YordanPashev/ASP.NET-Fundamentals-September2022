@@ -4,6 +4,6 @@
     {
         public string BoardName { get; set; } = null!;
 
-        public int UserTasksCount { get; set; }
+        public int TasksCount { get; set; }
     }
 }
