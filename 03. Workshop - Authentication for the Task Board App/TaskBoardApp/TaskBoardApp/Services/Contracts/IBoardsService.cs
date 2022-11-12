@@ -4,10 +4,14 @@
 
     public interface IBoardsService
     {
-        Task<List<string>> GetAllBoardsNames();
+        Task CreateNewBoardAsync(string boardName);
 
-        Task<List<BoardViewModel>> GetAllBoards();
+        Task<List<BoardViewModel>> GetAllBoardsAsync();
 
-        Task CreateNewBoard(string boardName);
+        Task<List<string>> GetAllBoardsNamesAsync();
+
+        Task<List<BoardTasksViewModel>> GetBoardTasksAsync();
+
+        Task<List<BoardTasksViewModel>> GetUsersBoardsAsync(string? userName);
     }
 }

@@ -16,7 +16,7 @@
         public TasksService(TaskBoardDbContext dbcontext)
             => this.context = dbcontext;
 
-        public async System.Threading.Tasks.Task CreateNewTask(CreateTaskViewModel model)
+        public async System.Threading.Tasks.Task CreateNewTaskAsync(CreateTaskViewModel model)
         {
             User? owner = await this.context.Users.FirstOrDefaultAsync(u => u.UserName == model.OwnerUsername);
 
@@ -34,10 +34,10 @@
             await this.context.SaveChangesAsync();
         }
 
-        public async Task<List<TaskViewModel>> GetUsersTasks(string? userName)
+        public async Task<List<TaskViewModel>> GetUsersTasksAsync(string? userName)
         {
-            User? user = this.context.Users.FirstOrDefault(u => u.UserName == userName);
-                
+            User? user = this.context.Users.FirstOrDefault(u => u.UserName == userName); 
+
             return await this.context.Tasks
                                 .Include(t => t.Board)
                                 .Where(t => t.OwnerId == user.Id)
@@ -49,14 +49,13 @@
                                         Description = t.Description,
                                         CreatedOn = t.CreatedOn.ToString(GlobalConstants.TaskDateTimeFormat),
                                         BoardName = t.Board.Name,
-                                        OwnerUsername = t.Owner.UserName
+                                        OwnerUsername = t.Owner.UserName,
                                     })
                                 .OrderBy(t => t.Title)
                                 .ToListAsync();
         }
            
-
-        public async Task<bool> IsBoardExists(Guid boardId)
+        public async Task<bool> IsBoardExistsAsync(Guid boardId)
             => await this.context.Boards.AnyAsync(b => b.Id == boardId);
     }
 }

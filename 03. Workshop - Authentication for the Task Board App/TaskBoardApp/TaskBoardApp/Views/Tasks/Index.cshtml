@@ -1,4 +1,4 @@
-﻿@model List<TaskViewModel>
+﻿@model UserTasksViewModel
 
 @{
     ViewData["Title"] = "My Tasks";
@@ -14,14 +14,21 @@
         </h3>
     }
     <br/>
-    @if(Model == null || Model.Count() <= 0)
+    @if(Model == null || Model?.UsersTasks?.Count() <= 0)
     {
         <h2 style="color: black; font-weight: bold">
-            There is no tasks.
+            No tasks yet.
         </h2>
     }
     else
     {
+        @foreach(BoardTasksViewModel board in Model.UsersBoards)
+        {
+            <h3 class="text-center">
+                @board.BoardName: @board.UserTasksCount 
+            </h3>
+        }
+            
         <table class="table table-hover" style="width: 1280px ;color: black; text-align: center; backdrop-filter: blur(35px); border: 4px solid; border-color: #EFCFC3; background-color: darkgray;">
             <thead>
                 <tr>
@@ -32,7 +39,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var task in @Model)
+                @foreach (var task in @Model.UsersTasks)
                 {
                     <tr name="trData" onclick="location.href='@Url.Action("Details", "Tasks", new { task.Id })'">
                         <td style="text-align: center">@Html.DisplayFor(modelItem => task.Title)</td>

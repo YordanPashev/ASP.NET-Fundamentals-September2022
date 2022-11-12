@@ -24,7 +24,7 @@
             }
 
             this.ViewBag.UserMessage = userMessage;
-            List<string> model = await this.boardsService.GetAllBoardsNames();
+            List<string> model = await this.boardsService.GetAllBoardsNamesAsync();
 
             return this.View(model);
         }
@@ -48,7 +48,7 @@
                 return this.RedirectToAction("Create", "Boards", new { userMessage = GlobalConstants.NewBoardAddedMessage });
             }
 
-            await this.boardsService.CreateNewBoard(model.Name);
+            await this.boardsService.CreateNewBoardAsync(model.Name);
 
             return this.RedirectToAction("Index", "Boards", new { userMessage = GlobalConstants.NewBoardAddedMessage });
         }

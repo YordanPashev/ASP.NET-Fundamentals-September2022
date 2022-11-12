@@ -20,8 +20,9 @@
             this.boardsService = _boardsService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            List<BoardTasksViewModel> model = await this.boardsService.GetBoardTasksAsync();
             return this.View();
         }
 

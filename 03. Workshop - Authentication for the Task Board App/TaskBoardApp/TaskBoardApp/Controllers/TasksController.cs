@@ -29,8 +29,12 @@
             {
                 this.ViewBag.UserMessage = userMessage;
             }
-            
-            List<TaskViewModel> model = await this.tasksService.GetUsersTasks(User?.Identity?.Name);
+
+            UserTasksViewModel model = new UserTasksViewModel()
+            {
+                UsersTasks = await this.tasksService.GetUsersTasksAsync(User?.Identity?.Name),
+                UsersBoards = await this.boardsService.GetUsersBoardsAsync(User?.Identity?.Name),
+            };
 
             return this.View(model);
         }
@@ -45,7 +49,7 @@
 
             CreateTaskViewModel model = new CreateTaskViewModel()
             {
-                ExistingBoards = await this.boardsService.GetAllBoards(),
+                ExistingBoards = await this.boardsService.GetAllBoardsAsync(),
             };
 
             return this.View(model);
@@ -65,12 +69,12 @@
             }
 
             model.OwnerUsername = this.User.Identity.Name;
-            await this.tasksService.CreateNewTask(model);
+            await this.tasksService.CreateNewTaskAsync(model);
 
             return this.RedirectToAction("Index", "Tasks", new { userMessage = GlobalConstants.NewTaskAddedMessage});
         }
 
         private async Task<bool> IsBoardValid(Guid boardId)
-            => await this.tasksService.IsBoardExists(boardId);
+            => await this.tasksService.IsBoardExistsAsync(boardId);
     }
 }
