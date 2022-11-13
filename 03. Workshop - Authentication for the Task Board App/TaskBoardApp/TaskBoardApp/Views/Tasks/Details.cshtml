@@ -1,0 +1,28 @@
+﻿@model TaskViewModel
+
+@{
+    ViewData["Title"] = "Task Details";
+}
+
+<h1 style="color: #EFCFC3; text-align: center; font-weight: bold;">@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-6 mx-auto" style="color: white; text-align: center; backdrop-filter: blur(20px); border: 2px solid; border-color: #EFCFC3; border-radius: 35px">
+        <div class="card-body">
+            <h3 class="card-title text-center" style="font-weight: bold;"><i>@Model.Title</i></h3>
+            <hr />
+            <h5 class="card-text"><span class="fw-bold">Description: </span>@Model.Description</h5>
+            <h5 class="card-text"><span class="fw-bold">Board: </span>@Model.BoardName</h5>
+            <h5 class="card-text"><span class="fw-bold">Owner: </span>@Model.OwnerUsername</h5>
+            <h5 class="card-text"><span class="fw-bold">Created on: </span>@Model.CreatedOn</h5>
+            @if (Model.OwnerUsername == this.User?.Identity?.Name)
+            {
+                <div class="actions mt-4">
+                        <a asp-controller="Tasks" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                        <a asp-controller="Tasks" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

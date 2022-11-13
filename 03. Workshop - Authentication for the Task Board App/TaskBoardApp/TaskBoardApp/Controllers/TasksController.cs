@@ -63,7 +63,7 @@
                 return this.RedirectToAction("Create", "Tasks", new { userMessage = GlobalConstants.InvalidDataMessage });
             }
 
-            if (!await IsBoardValid(model.BoardId))
+            if (!await IsBoardValidAsync(model.BoardId))
             {
                 return this.RedirectToAction("Create", "Tasks", new { userMessage = GlobalConstants.InvalidBoardMessage });
             }
@@ -71,10 +71,24 @@
             model.OwnerUsername = this.User.Identity.Name;
             await this.tasksService.CreateNewTaskAsync(model);
 
-            return this.RedirectToAction("Index", "Tasks", new { userMessage = GlobalConstants.NewTaskAddedMessage});
+            return this.RedirectToAction("Index", "Tasks", new { userMessage = GlobalConstants.NewTaskAddedMessage });
         }
 
-        private async Task<bool> IsBoardValid(Guid boardId)
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            string taskId = id.ToString();
+            TaskViewModel? model = await this.tasksService.GetTaskByAdAsync(taskId.ToString());
+
+            if (taskId.ToString() == null || model == null)
+            {
+                return this.RedirectToAction("Index", "Home", new { userMessage = GlobalConstants.InvalidDataMessage });
+            }
+
+            return this.View(model);
+        }
+
+        private async Task<bool> IsBoardValidAsync(Guid boardId)
             => await this.tasksService.IsBoardExistsAsync(boardId);
     }
 }

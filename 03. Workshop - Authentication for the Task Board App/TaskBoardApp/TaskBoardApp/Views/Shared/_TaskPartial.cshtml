@@ -6,11 +6,11 @@
         <ul class="list-group list-group-flush">
 
             <li class="list-group-item" style="background-color: #EFCFC3;"><span class="fw-bold">Title: </span> @task.Title</li>
-            <li class="list-group-item"><span class="fw-bold">Created by: </span> @task.OwnerUsername</li>
             <li class="list-group-item"><span class="fw-bold">Description: </span> : @task.Description</li>
+            <li class="list-group-item"><span class="fw-bold">Owner: </span> @task.OwnerUsername</li>
             <li class="list-group-item">
                 <span class="fw-bold">Actions: </span>
-                <a asp-controller="Tasks" asp-action="Details" asp-route-id="@task.Id" class="btn btn-success mt-2 mb-2">View</a>
+                <a asp-controller="Tasks" asp-action="Details" asp-route-id="@task.Id" class="btn btn-success mt-2 mb-2">Details</a>
                 <span></span>
                 @if (this.User?.Identity?.Name == task.OwnerUsername)
                 {

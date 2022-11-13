@@ -62,11 +62,36 @@
                                 .ToListAsync();
         }
 
+
+        public async Task<TaskViewModel?> GetTaskByAdAsync(string? taskId)
+        {
+            Data.Entities.Task? task = await this.context.Tasks
+                                .Include(t => t.Owner)
+                                .Include(t => t.Board)
+                                .FirstOrDefaultAsync(t => t.Id.ToString()== taskId);
+
+            if (task != null)
+            {
+                return new TaskViewModel()
+                {
+                    Id = task.Id,
+                    Title = task.Title,
+                    Description = task.Description,
+                    CreatedOn = task.CreatedOn.ToString(GlobalConstants.TaskDateTimeFormat),
+                    BoardName = task.Board.Name,
+                    OwnerUsername = task.Owner.UserName,
+                };
+            }
+
+            return null;
+            
+        }
+
         public async Task<int> GetUsersTasksCountAsync(string userName)
         {
             User? user = this.context.Users.FirstOrDefault(u => u.UserName == userName);
 
             return await this.context.Tasks.Where(t => t.OwnerId == user.Id).CountAsync();
-        } 
+        }
     }
 }

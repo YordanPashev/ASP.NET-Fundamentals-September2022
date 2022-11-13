@@ -11,23 +11,26 @@
     {
 
         private readonly IBoardsService boardsService;
-        private readonly ILogger<HomeController> logger;
         private readonly ITasksService tasksService;
 
-        public HomeController(ILogger<HomeController> _logger, IBoardsService _boardsService, ITasksService _tasksService)
+        public HomeController(IBoardsService _boardsService, ITasksService _tasksService)
         {
-            this.logger = _logger;
             this.boardsService = _boardsService;
             this.tasksService = _tasksService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string userMessage)
         {
+            if (userMessage != null)
+            {
+                this.ViewBag.UserMessage = userMessage;
+            }
+
             if (this.User?.Identity?.IsAuthenticated ?? false)
             {
-                AllBoardTasksWithUserTasksCountViewModel model = new AllBoardTasksWithUserTasksCountViewModel()
+                BoardsWithUserTasksCountViewModel model = new BoardsWithUserTasksCountViewModel()
                 {
-                    BoardTasks = await this.boardsService.GetBoardsWithThierTasksAsync(),
+                    Boards = await this.boardsService.GetBoardsWithThierTasksAsync(),
                     UsersTasksCount = await this.tasksService.GetUsersTasksCountAsync(User?.Identity?.Name),
                     AllTasksCount = await this.tasksService.GetAllTasksCount(),
                 };
@@ -35,7 +38,7 @@
                 return this.View(model);
             }
 
-            return this.View(new AllBoardTasksWithUserTasksCountViewModel());
+            return this.View(new BoardsWithUserTasksCountViewModel());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
