@@ -16,19 +16,23 @@
     <br/>
     @if(Model == null || Model?.UsersTasks?.Count() <= 0)
     {
-        <h2 style="color: black; font-weight: bold">
+        <h2 style="color: white; font-weight: bold">
             <i>No tasks yet.</i>
         </h2>
     }
     else
     {
-        @foreach(BoardTasksViewModel board in Model.UsersBoards)
-        {
-            <h3 class="text-center">
-                @board.BoardName: @board.TasksCount 
-            </h3>
-        }
-            
+        <table class="table table-hover" style="width: 1280px; color: white; text-align: center; backdrop-filter: blur(35px); border: 1px solid; border-color: #EFCFC3; background-color: transparent;">
+            <thead>
+                <tr>
+                    @foreach(BoardTasksViewModel board in Model.UsersBoards)
+                    {
+                        <th style="text-align: center">@board.BoardName: @board.TasksCount</th>
+                    }
+                </tr>
+            </thead>
+        </table>
+
         <table class="table table-hover" style="width: 1280px; color: black; text-align: center; backdrop-filter: blur(35px); border: 4px solid; border-color: #EFCFC3; background-color: darkgray;">
             <thead>
                 <tr>

@@ -35,7 +35,7 @@
                 return this.View(model);
             }
 
-            return this.View(new List<BoardTasksViewModel>());
+            return this.View(new AllBoardTasksWithUserTasksCountViewModel());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
