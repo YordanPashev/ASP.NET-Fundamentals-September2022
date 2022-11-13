@@ -59,7 +59,7 @@
         public async Task<List<BoardTasksViewModel>> GetUsersBoardsAsync(string? userName)
         {
             List<string> boardsNames = new List<string>();
-            User? user = await this.context.Users.FirstOrDefaultAsync();
+            User? user = await this.context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
 
             return await this.context.Boards
                             .Include(b => b.Tasks)

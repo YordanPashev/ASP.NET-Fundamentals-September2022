@@ -6,21 +6,21 @@
 
 @if(!User?.Identity?.IsAuthenticated ?? false)
 {
-    <div class="text-center">
+    <div class="text-center ">
         <h1 class="display-4" style="color: #EFCFC3; font-weight: bold; font-style: italic">
             Welcome to Task Board! 
         </h1>
-        <h2 style="color: white;">
+        <h3 style="color: white;">
             <i>To Create your own Board you must Log In or Register. </i>
-        </h2>
+        </h3>
     </div>
 }
 else
 {
-    <h1 class="text-center" style="color: #EFCFC3; font-weight: bold; font-style: italic">
+    <h1 class="text-center display-4" style="color: #EFCFC3; font-weight: bold; font-style: italic">
         Welcome, @this.User?.Identity?.Name!
     </h1>
-    <h4 class="mt-4 text-center" style="color: green;"><strong style="background-color: lightgray;  border: 2px solid; border-radius: 5px; border-color: #EFCFC3;">TaskBoard is here for all your tasks.</strong></h4>
+    <h3 class="mt-4 text-center" style="color:  #EFCFC3;">TaskBoard is here for all your tasks.</h3>
     <br />
     @if(Model != null && Model.AllTasksCount > 0)
     {
