@@ -25,7 +25,7 @@
         <table class="table table-hover" style="width: 1280px; color: white; text-align: center; backdrop-filter: blur(35px); border: 1px solid; border-color: #EFCFC3; background-color: transparent;">
             <thead>
                 <tr>
-                    @foreach(BoardTasksViewModel board in Model.UsersBoards)
+                    @foreach(BoardWithTasksViewModel board in Model.UsersBoards)
                     {
                         <th style="text-align: center">@board.BoardName: @board.TasksCount</th>
                     }
@@ -33,7 +33,7 @@
             </thead>
         </table>
 
-        <table class="table table-hover" style="width: 1280px; color: black; text-align: center; backdrop-filter: blur(35px); border: 4px solid; border-color: #EFCFC3; background-color: darkgray;">
+        <table class="table table-hover" style="width: 1280px; color: black; text-align: center; backdrop-filter: blur(35px); border: 4px solid; border-color: #EFCFC3; background-color: white;">
             <thead>
                 <tr>
                     <th style="text-align:center">Title</th>

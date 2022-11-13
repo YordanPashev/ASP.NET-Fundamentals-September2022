@@ -4,6 +4,6 @@
     {
         public List<TaskViewModel> UsersTasks { get; set; } = new List<TaskViewModel>();
 
-        public List<BoardTasksViewModel> UsersBoards { get; set; } = new List<BoardTasksViewModel>();
+        public List<BoardWithTasksViewModel> UsersBoards { get; set; } = new List<BoardWithTasksViewModel>();
     }
 }

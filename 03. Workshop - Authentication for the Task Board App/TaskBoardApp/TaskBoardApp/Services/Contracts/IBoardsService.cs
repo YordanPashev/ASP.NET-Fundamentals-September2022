@@ -10,8 +10,8 @@
 
         Task<List<string>> GetAllBoardsNamesAsync();
 
-        Task<List<BoardTasksViewModel>> GetBoardsWithThierTasksAsync();
+        Task<List<BoardWithTasksViewModel>> GetBoardsWithThierTasksAsync();
 
-        Task<List<BoardTasksViewModel>> GetUsersBoardsAsync(string? userName);
+        Task<List<BoardWithTasksViewModel>> GetUsersBoardsAsync(string? userName);
     }
 }

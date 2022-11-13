@@ -2,7 +2,7 @@
 {
     public class AllBoardTasksWithUserTasksCountViewModel
     {
-        public List<BoardTasksViewModel> BoardTasks { get; set; } = new List<BoardTasksViewModel>();
+        public List<BoardWithTasksViewModel> BoardTasks { get; set; } = new List<BoardWithTasksViewModel>();
 
         public int UsersTasksCount { get; set; }
 

@@ -1,0 +1,24 @@
+﻿@model IEnumerable<TaskViewModel>
+
+@foreach (var task in Model)
+{
+    <div class="card mt-2" style="width: 20rem; background-color: transparent; border-color: transparent">
+        <ul class="list-group list-group-flush">
+
+            <li class="list-group-item" style="background-color: #EFCFC3;"><span class="fw-bold">Title: </span> @task.Title</li>
+            <li class="list-group-item"><span class="fw-bold">Created by: </span> @task.OwnerUsername</li>
+            <li class="list-group-item"><span class="fw-bold">Description: </span> : @task.Description</li>
+            <li class="list-group-item">
+                <span class="fw-bold">Actions: </span>
+                <a asp-controller="Tasks" asp-action="Details" asp-route-id="@task.Id" class="btn btn-success mt-2 mb-2">View</a>
+                <span></span>
+                @if (this.User?.Identity?.Name == task.OwnerUsername)
+                {
+                    <a asp-controller="Tasks" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-primary mt-2 mb-2">Edit</a>
+                    <span></span>
+                    <a asp-controller="Tasks" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-danger mt-2 mb-2">Delete</a>
+                }
+            </li>
+        </ul>
+    </div>
+}
