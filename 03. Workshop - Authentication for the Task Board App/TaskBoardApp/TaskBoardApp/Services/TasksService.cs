@@ -62,13 +62,26 @@
                                 .ToListAsync();
         }
 
+        public async Task<int> GetUsersTasksCountAsync(string userName)
+        {
+            User? user = this.context.Users.FirstOrDefault(u => u.UserName == userName);
+
+            return await this.context.Tasks.Where(t => t.OwnerId == user.Id).CountAsync();
+        }
+
+        public async Task<UserTasksAndBoardsViewModel> GetUsersTasksAndBordsAsync(string? userName)
+            => new UserTasksAndBoardsViewModel()
+            {
+                UsersTasks = await GetUsersTasksAsync(userName),
+                UsersBoards = await GetUsersBoardsAsync(userName),
+            };
 
         public async Task<TaskViewModel?> GetTaskByAdAsync(string? taskId)
         {
             Data.Entities.Task? task = await this.context.Tasks
                                 .Include(t => t.Owner)
                                 .Include(t => t.Board)
-                                .FirstOrDefaultAsync(t => t.Id.ToString()== taskId);
+                                .FirstOrDefaultAsync(t => t.Id.ToString() == taskId);
 
             if (task != null)
             {
@@ -84,14 +97,22 @@
             }
 
             return null;
-            
         }
 
-        public async Task<int> GetUsersTasksCountAsync(string userName)
+        private async Task<List<BoardWithTasksViewModel>> GetUsersBoardsAsync(string? userName)
         {
-            User? user = this.context.Users.FirstOrDefault(u => u.UserName == userName);
+            List<string> boardsNames = new List<string>();
+            User? user = await this.context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
 
-            return await this.context.Tasks.Where(t => t.OwnerId == user.Id).CountAsync();
+            return await this.context.Boards
+                            .Include(b => b.Tasks)
+                            .Select(b => new BoardWithTasksViewModel()
+                            {
+                                BoardName = b.Name,
+                                TasksCount = b.Tasks.Where(t => t.OwnerId == user.Id).Count()
+                            })
+                            .OrderBy(b => b.BoardName)
+                            .ToListAsync();
         }
     }
 }

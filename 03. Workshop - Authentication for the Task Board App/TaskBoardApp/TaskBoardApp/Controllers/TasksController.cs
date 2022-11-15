@@ -30,11 +30,7 @@
                 this.ViewBag.UserMessage = userMessage;
             }
 
-            UserTasksViewModel model = new UserTasksViewModel()
-            {
-                UsersTasks = await this.tasksService.GetUsersTasksAsync(User?.Identity?.Name),
-                UsersBoards = await this.boardsService.GetUsersBoardsAsync(User?.Identity?.Name),
-            };
+            UserTasksAndBoardsViewModel model = await this.tasksService.GetUsersTasksAndBordsAsync(User?.Identity?.Name);
 
             return this.View(model);
         }
@@ -58,17 +54,12 @@
         [HttpPost]
         public async Task<IActionResult> Create(CreateTaskViewModel model)
         {
-            if (!this.ModelState.IsValid || model == null || this.User?.Identity?.Name == null)
+            if (!this.ModelState.IsValid || !await IsBoardValidAsync(model.BoardId))
             {
                 return this.RedirectToAction("Create", "Tasks", new { userMessage = GlobalConstants.InvalidDataMessage });
             }
 
-            if (!await IsBoardValidAsync(model.BoardId))
-            {
-                return this.RedirectToAction("Create", "Tasks", new { userMessage = GlobalConstants.InvalidBoardMessage });
-            }
-
-            model.OwnerUsername = this.User.Identity.Name;
+            model.OwnerUsername = this.User?.Identity?.Name;
             await this.tasksService.CreateNewTaskAsync(model);
 
             return this.RedirectToAction("Index", "Tasks", new { userMessage = GlobalConstants.NewTaskAddedMessage });

@@ -12,8 +12,10 @@
 
         Task<List<TaskViewModel>> GetUsersTasksAsync(string? userName);
 
-        Task<TaskViewModel> GetTaskByAdAsync(string taskId);
-
         Task<int> GetUsersTasksCountAsync(string userName);
+
+        Task<TaskViewModel?> GetTaskByAdAsync(string? taskId);
+
+        Task<UserTasksAndBoardsViewModel> GetUsersTasksAndBordsAsync(string? userName);
     }
 }

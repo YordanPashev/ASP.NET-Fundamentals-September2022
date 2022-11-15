@@ -1,6 +1,6 @@
 ﻿namespace TaskBoardApp.Models
 {
-    public class UserTasksViewModel
+    public class UserTasksAndBoardsViewModel
     {
         public List<TaskViewModel> UsersTasks { get; set; } = new List<TaskViewModel>();
 
