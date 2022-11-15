@@ -15,7 +15,6 @@
         private readonly ITasksService tasksService;
         private readonly IBoardsService boardsService;
 
-
         public TasksController(ITasksService _tasksService, IBoardsService boardsService)
         {
             this.tasksService = _tasksService;
@@ -78,6 +77,18 @@
 
             return this.View(model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            if(!await this.tasksService.TryDeleteTaskById(id.ToString()))
+            {
+                return this.RedirectToAction("Index", "Home", new { userMessage = GlobalConstants.InvalidDataMessage });
+            }
+    
+            return this.RedirectToAction("Index", "Home", new { userMessage = GlobalConstants.SuccessfullyDeletedTaskMessage });
+        }
+    
 
         private async Task<bool> IsBoardValidAsync(Guid boardId)
             => await this.tasksService.IsBoardExistsAsync(boardId);

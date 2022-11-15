@@ -34,6 +34,21 @@
             await this.context.SaveChangesAsync();
         }
 
+        public async Task<bool> TryDeleteTaskById(string taskId)
+        {
+            Data.Entities.Task? task = await this.context.Tasks.FirstOrDefaultAsync(t => t.Id.ToString() == taskId);
+
+            if (task == null)
+            {
+                return false;
+            }
+
+            this.context.Tasks.Remove(task);
+            await this.context.SaveChangesAsync();
+
+            return true;
+        }
+
         public async Task<bool> IsBoardExistsAsync(Guid boardId)
             => await this.context.Boards.AnyAsync(b => b.Id == boardId);
 
@@ -43,7 +58,7 @@
 
         public async Task<List<TaskViewModel>> GetUsersTasksAsync(string? userName)
         {
-            User? user = this.context.Users.FirstOrDefault(u => u.UserName == userName);
+            User? user = await this.context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
 
             return await this.context.Tasks
                                 .Include(t => t.Board)

@@ -6,6 +6,8 @@
     {
         Task CreateNewTaskAsync(CreateTaskViewModel model);
 
+        Task<bool> TryDeleteTaskById(string taskId);
+
         Task<bool> IsBoardExistsAsync(Guid boardId);
 
         Task<int> GetAllTasksCount();

@@ -9,15 +9,7 @@
             <li class="list-group-item"><span class="fw-bold">Description: </span> : @task.Description</li>
             <li class="list-group-item"><span class="fw-bold">Owner: </span> @task.OwnerUsername</li>
             <li class="list-group-item">
-                <span class="fw-bold">Actions: </span>
                 <a asp-controller="Tasks" asp-action="Details" asp-route-id="@task.Id" class="btn btn-success mt-2 mb-2">Details</a>
-                <span></span>
-                @if (this.User?.Identity?.Name == task.OwnerUsername)
-                {
-                    <a asp-controller="Tasks" asp-action="Edit" asp-route-id="@task.Id" class="btn btn-primary mt-2 mb-2">Edit</a>
-                    <span></span>
-                    <a asp-controller="Tasks" asp-action="Delete" asp-route-id="@task.Id" class="btn btn-danger mt-2 mb-2">Delete</a>
-                }
             </li>
         </ul>
     </div>

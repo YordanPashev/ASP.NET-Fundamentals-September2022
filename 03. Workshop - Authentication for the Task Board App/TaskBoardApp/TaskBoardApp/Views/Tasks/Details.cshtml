@@ -17,9 +17,13 @@
             <h5 class="card-text"><span class="fw-bold">Created on: </span>@Model.CreatedOn</h5>
             @if (Model.OwnerUsername == this.User?.Identity?.Name)
             {
-                <div class="actions mt-4">
-                        <a asp-controller="Tasks" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
-                        <a asp-controller="Tasks" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                <div class="d-grid gap-1 mt-4">
+                    <a asp-controller="Tasks" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                    <form class="mt-2" asp-controller="Tasks" asp-action="Delete" asp-route-id="@Model.Id">
+                            <div class="d-grid gap-1">
+                                <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete task: @Model.Title?')"/>
+                            </div>
+                       </form>
                 </div>
             }
         </div>
