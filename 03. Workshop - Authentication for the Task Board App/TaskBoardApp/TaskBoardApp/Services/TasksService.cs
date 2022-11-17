@@ -12,9 +12,14 @@
     public class TasksService : ITasksService
     {
         private readonly TaskBoardDbContext context;
+        private readonly IBoardsService boardsService;
 
-        public TasksService(TaskBoardDbContext dbcontext)
-            => this.context = dbcontext;
+
+        public TasksService(TaskBoardDbContext dbcontext, IBoardsService boardsService)
+        {
+            this.context = dbcontext;
+            this.boardsService = boardsService;
+        }
 
         public async System.Threading.Tasks.Task CreateNewTaskAsync(CreateTaskViewModel model)
         {
@@ -32,6 +37,29 @@
 
             await this.context.Tasks.AddAsync(task);
             await this.context.SaveChangesAsync();
+        }
+
+        public async Task<TaskViewModel?> CreateTaskViewModelByIdAsync(string? taskId)
+        {
+            Data.Entities.Task? task = await this.context.Tasks
+                                .Include(t => t.Owner)
+                                .Include(t => t.Board)
+                                .FirstOrDefaultAsync(t => t.Id.ToString() == taskId);
+
+            if (task != null)
+            {
+                return new TaskViewModel()
+                {
+                    Id = task.Id,
+                    Title = task.Title,
+                    Description = task.Description,
+                    CreatedOn = task.CreatedOn.ToString(GlobalConstants.TaskDateTimeFormat),
+                    BoardName = task.Board.Name,
+                    OwnerUsername = task.Owner.UserName,
+                };
+            }
+
+            return null;
         }
 
         public async Task<bool> TryDeleteTaskById(string taskId)
@@ -91,28 +119,11 @@
                 UsersBoards = await GetUsersBoardsAsync(userName),
             };
 
-        public async Task<TaskViewModel?> GetTaskByAdAsync(string? taskId)
-        {
-            Data.Entities.Task? task = await this.context.Tasks
-                                .Include(t => t.Owner)
-                                .Include(t => t.Board)
-                                .FirstOrDefaultAsync(t => t.Id.ToString() == taskId);
-
-            if (task != null)
-            {
-                return new TaskViewModel()
-                {
-                    Id = task.Id,
-                    Title = task.Title,
-                    Description = task.Description,
-                    CreatedOn = task.CreatedOn.ToString(GlobalConstants.TaskDateTimeFormat),
-                    BoardName = task.Board.Name,
-                    OwnerUsername = task.Owner.UserName,
-                };
-            }
-
-            return null;
-        }
+        public async Task<Data.Entities.Task?> GetTaskByIdAsync(string? taskId)
+            => await this.context.Tasks
+                           .Include(t => t.Owner)
+                           .Include(t => t.Board)
+                           .FirstOrDefaultAsync(t => t.Id.ToString() == taskId);
 
         private async Task<List<BoardWithTasksViewModel>> GetUsersBoardsAsync(string? userName)
         {
@@ -129,5 +140,37 @@
                             .OrderBy(b => b.BoardName)
                             .ToListAsync();
         }
+
+        public async System.Threading.Tasks.Task EditTaskAsync(EditTaskViewModel model)
+        {
+            Data.Entities.Task? task = await this.context.Tasks.FirstOrDefaultAsync(t => t.Id == model.Id);
+
+            task.Title = model.Title;
+            task.Description = model.Description;
+            task.BoardId = model.BoardId;
+
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task<EditTaskViewModel?> CreateNewEditTaskViewModelByIdAsync(Guid modelId)
+        {
+            Data.Entities.Task? task = await this.context.Tasks.Include(t => t.Owner).FirstOrDefaultAsync(t => t.Id == modelId);
+
+            if (task == null)
+            {
+                return null;
+            }
+
+            return new EditTaskViewModel()
+                        {
+                            Id = task.Id,
+                            Title = task.Title,
+                            Description = task.Description,
+                            BoardId = task.BoardId,
+                            OwnerUsername = task.Owner.UserName,
+                            ExistingBoards = await this.boardsService.GetAllBoardsAsync()
+                        };
+        }
+
     }
 }

@@ -10,7 +10,6 @@
 
         public const int TaskDescriptionMinLength = 10;
         public const int TaskDescriptionMaxLength = 1000;
-        public const string SuccessfullyDeletedTaskMessage = "The task has been successfully deleted.";
 
         // User
         public const int UserFirstNameMinLength = 2;
@@ -28,5 +27,8 @@
         public const string NewTaskAddedMessage = "A new task has been added";
         public const string InvalidDataMessage = "Invalid data!";
         public const string InvalidBoardMessage = "Invalid board!";
+        public const string SuccessfullyDeletedTaskMessage = "The task has been successfully deleted.";
+        public const string SuccessfullyEditedTaskMessage = "The task has been successfully edited.";
+        public const string PleaseEditSelectedTaskUserMessage = "Please edit the selected task.";
     }
 }

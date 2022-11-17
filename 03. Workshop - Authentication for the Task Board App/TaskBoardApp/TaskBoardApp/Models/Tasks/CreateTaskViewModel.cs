@@ -16,8 +16,6 @@
         [MaxLength(GlobalConstants.TaskDescriptionMaxLength)]
         public string Description { get; set; } = null!;
 
-        public DateTime CreatedOn { get; set; }
-
         [Required]
         public Guid BoardId { get; set; }
 

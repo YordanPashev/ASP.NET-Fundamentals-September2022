@@ -68,7 +68,7 @@
         public async Task<IActionResult> Details(Guid id)
         {
             string taskId = id.ToString();
-            TaskViewModel? model = await this.tasksService.GetTaskByAdAsync(taskId.ToString());
+            TaskViewModel? model = await this.tasksService.CreateTaskViewModelByIdAsync(taskId.ToString());
 
             if (taskId.ToString() == null || model == null)
             {
@@ -88,8 +88,43 @@
     
             return this.RedirectToAction("Index", "Home", new { userMessage = GlobalConstants.SuccessfullyDeletedTaskMessage });
         }
-    
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid Id, string userMessage)
+        {
+            EditTaskViewModel model = await this.tasksService.CreateNewEditTaskViewModelByIdAsync(Id);
+
+            if (model == null || model.OwnerUsername != this.User?.Identity?.Name)
+            {
+                return this.RedirectToAction("Index", "Home", new { userMessage = GlobalConstants.InvalidDataMessage });
+            }
+
+            if (userMessage != null)
+            {
+                this.ViewBag.UserMessage = userMessage;
+            }
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditTaskViewModel model)
+        {
+            Data.Entities.Task? task = await this.tasksService.GetTaskByIdAsync(model.Id.ToString());
+
+            if (!this.ModelState.IsValid || !await IsBoardValidAsync(model.BoardId) || task == null)
+            {
+                return this.RedirectToAction("Edit", "Tasks", new { userMessage = GlobalConstants.InvalidDataMessage });
+            }
+
+            if (task.Title == model.Title && task.Description == model.Description && task.BoardId == model.BoardId)
+            {
+                return this.RedirectToAction("Edit", "Tasks", new { userMessage = GlobalConstants.PleaseEditSelectedTaskUserMessage, Id = model.Id});
+            }
+            await this.tasksService.EditTaskAsync(model);
+
+            return this.RedirectToAction("Index", "Tasks", new { userMessage = GlobalConstants.SuccessfullyEditedTaskMessage });
+        }
         private async Task<bool> IsBoardValidAsync(Guid boardId)
             => await this.tasksService.IsBoardExistsAsync(boardId);
     }
