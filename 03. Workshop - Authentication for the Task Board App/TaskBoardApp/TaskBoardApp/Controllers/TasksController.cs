@@ -65,12 +65,11 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(Guid id)
+        public async Task<IActionResult> Details(Guid? id)
         {
-            string taskId = id.ToString();
-            TaskViewModel? model = await this.tasksService.CreateTaskViewModelByIdAsync(taskId.ToString());
+            TaskViewModel? model = await this.tasksService.CreateTaskViewModelByIdAsync(id.ToString());
 
-            if (taskId.ToString() == null || model == null)
+            if (model == null)
             {
                 return this.RedirectToAction("Index", "Home", new { userMessage = GlobalConstants.InvalidDataMessage });
             }
@@ -81,7 +80,7 @@
         [HttpPost]
         public async Task<IActionResult> Delete(Guid id)
         {
-            if(!await this.tasksService.TryDeleteTaskById(id.ToString()))
+            if(!await this.tasksService.TryToDeleteTaskById(id.ToString()))
             {
                 return this.RedirectToAction("Index", "Home", new { userMessage = GlobalConstants.InvalidDataMessage });
             }
@@ -125,6 +124,7 @@
 
             return this.RedirectToAction("Index", "Tasks", new { userMessage = GlobalConstants.SuccessfullyEditedTaskMessage });
         }
+
         private async Task<bool> IsBoardValidAsync(Guid boardId)
             => await this.tasksService.IsBoardExistsAsync(boardId);
     }

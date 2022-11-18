@@ -12,9 +12,9 @@
 
         Task EditTaskAsync(EditTaskViewModel model);
 
-        Task<int> GetUsersTasksCountAsync(string userName);
+        Task<int> GetUsersTasksCountAsync(string? userName);
 
-        Task<bool> TryDeleteTaskById(string taskId);
+        Task<bool> TryToDeleteTaskById(string taskId);
 
         Task<bool> IsBoardExistsAsync(Guid boardId);
 

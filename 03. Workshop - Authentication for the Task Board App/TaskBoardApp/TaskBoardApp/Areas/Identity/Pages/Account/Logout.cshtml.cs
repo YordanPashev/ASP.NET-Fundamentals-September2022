@@ -10,7 +10,7 @@ namespace TaskBoardApp.Areas.Identity.Pages.Account
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
 
-    using TaskBoardApp.Data.Entities;
+    using Data.Entities;
 
     public class LogoutModel : PageModel
     {
@@ -22,6 +22,7 @@ namespace TaskBoardApp.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
             await _signInManager.SignOutAsync();
+
             if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);

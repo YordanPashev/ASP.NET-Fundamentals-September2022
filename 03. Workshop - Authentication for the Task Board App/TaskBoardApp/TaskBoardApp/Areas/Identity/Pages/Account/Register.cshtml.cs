@@ -12,8 +12,8 @@ namespace TaskBoardApp.Areas.Identity.Pages.Account
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
 
-    using TaskBoardApp.Common;
-    using TaskBoardApp.Data.Entities;
+    using Common;
+    using Data.Entities;
 
     [AllowAnonymous]
     public class RegisterModel : PageModel

@@ -12,7 +12,7 @@ namespace TaskBoardApp.Areas.Identity.Pages.Account
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
 
-    using TaskBoardApp.Data.Entities;
+    using Data.Entities;
 
     [AllowAnonymous]
     public class LoginModel : PageModel

@@ -32,7 +32,7 @@
                 Description = model.Description,
                 CreatedOn = DateTime.Now,
                 BoardId = model.BoardId,
-                OwnerId = owner.Id,
+                OwnerId =owner.Id
             };
 
             await this.context.Tasks.AddAsync(task);
@@ -62,7 +62,7 @@
             return null;
         }
 
-        public async Task<bool> TryDeleteTaskById(string taskId)
+        public async Task<bool> TryToDeleteTaskById(string taskId)
         {
             Data.Entities.Task? task = await this.context.Tasks.FirstOrDefaultAsync(t => t.Id.ToString() == taskId);
 
@@ -105,7 +105,7 @@
                                 .ToListAsync();
         }
 
-        public async Task<int> GetUsersTasksCountAsync(string userName)
+        public async Task<int> GetUsersTasksCountAsync(string? userName)
         {
             User? user = this.context.Users.FirstOrDefault(u => u.UserName == userName);
 
