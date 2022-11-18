@@ -15,7 +15,6 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddScoped<IBoardsService, BoardsService>();
 builder.Services.AddScoped<ITasksService, TasksService>();
 
-
 builder.Services.AddDefaultIdentity<User>(options =>
 {
     options.Password.RequiredLength = 8;

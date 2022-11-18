@@ -11,5 +11,7 @@
         Task<List<string>> GetAllBoardsNamesAsync();
 
         Task<List<BoardWithTasksViewModel>> GetBoardsWithThierTasksAsync();
+
+        Task<List<BoardWithTasksViewModel>> GetUsersBoardsAsync(string? userName);
     }
 }

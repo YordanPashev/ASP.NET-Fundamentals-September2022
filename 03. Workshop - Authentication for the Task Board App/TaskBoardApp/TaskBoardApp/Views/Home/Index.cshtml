@@ -4,34 +4,34 @@
     ViewData["Title"] = "Home Page";
 }
 
-@if(@ViewBag.UserMessage != null)
-{
-    <h3 style="text-align: center;"><i style="color: yellow; background-color: green; border-radius: 5px;">
-        @ViewBag.UserMessage</i>
-    </h3>
-}
-
-@if(!User?.Identity?.IsAuthenticated ?? false)
-{
-    <div class="text-center ">
-        <h1 class="display-4" style="color: #EFCFC3; font-weight: bold; font-style: italic">
-            Welcome to Task Board! 
-        </h1>
-        <h3 style="color: white;">
-            <i>To Create your own Board you must Log In or Register. </i>
-        </h3>
-    </div>
-}
-else
-{
-    <h1 class="text-center display-4" style="color: #EFCFC3; font-weight: bold; font-style: italic">
-        Welcome, @this.User?.Identity?.Name!
-    </h1>
-    <h3 class="mt-4 text-center" style="color:  #EFCFC3;">TaskBoard is here for all your tasks.</h3>
-    <br />
-    @if(Model != null && Model.AllTasksCount > 0)
+@{
+    if(@ViewBag.UserMessage != null)
     {
-        <section class="col-md-12 mx-auto" style="color: white; text-align: center; backdrop-filter: blur(35px); border: 4px solid; border-color: #EFCFC3; border-radius: 15px; background-color: transparent;">
+        <h3 style="text-align: center;"><i style="color: yellow; background-color: green; border-radius: 5px;">
+            @ViewBag.UserMessage</i>
+        </h3>
+    }  
+    if(!User?.Identity?.IsAuthenticated ?? false)
+    {
+        <div class="text-center ">
+            <h1 class="display-4" style="color: #EFCFC3; font-weight: bold; font-style: italic">
+                Welcome to Task Board! 
+            </h1>
+            <h3 style="color: white;">
+                <i>To Create your own Board you must Log In or Register. </i>
+            </h3>
+        </div>
+    }
+    else
+    {
+        <h1 class="text-center display-4" style="color: #EFCFC3; font-weight: bold; font-style: italic">
+            Welcome, @this.User?.Identity?.Name!
+        </h1>
+        <h3 class="mt-4 text-center" style="color:  #EFCFC3;">TaskBoard is here for all your tasks.</h3>
+        <br />
+        @if(Model != null && Model.AllTasksCount > 0)
+        {
+            <section class="col-md-12 mx-auto" style="color: white; text-align: center; backdrop-filter: blur(35px); border: 4px solid; border-color: #EFCFC3; border-radius: 15px; background-color: transparent;">
                 @if (Model.UsersTasksCount > 0)
                 {
                     <h4 class="boardSpan mt-2"><i>All Tasks: <b>@Model.AllTasksCount</b></i></h4>
@@ -59,12 +59,13 @@ else
                 {
                     <h5 style="font-style: italic"><b>You don't have tasks</b></h5>
                 }
-        </section>
-    }
-    else
-    {
-        <h2 class="text-center" style="color: black; font-weight: bold">
-            <i>No tasks yet.</i>
-        </h2>  
+            </section>
+        }
+        else
+        {
+            <h2 class="text-center" style="color: black; font-weight: bold">
+                <i>No tasks yet.</i>
+            </h2>  
+        }
     }
 }

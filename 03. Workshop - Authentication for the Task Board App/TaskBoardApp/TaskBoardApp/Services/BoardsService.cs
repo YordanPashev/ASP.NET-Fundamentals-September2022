@@ -4,11 +4,11 @@
 
     using Microsoft.EntityFrameworkCore;
 
+    using Common;
     using Data;
     using Data.Entities;
     using Models;
     using Services.Contracts;
-    using TaskBoardApp.Common;
 
     public class BoardsService : IBoardsService
     {
@@ -61,6 +61,22 @@
                                     OwnerUsername = t.Owner.UserName,
                                 })
                                 .ToList()
+                            })
+                            .OrderBy(b => b.BoardName)
+                            .ToListAsync();
+        }
+
+        public async Task<List<BoardWithTasksViewModel>> GetUsersBoardsAsync(string? userName)
+        {
+            List<string> boardsNames = new List<string>();
+            User? user = await this.context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+
+            return await this.context.Boards
+                            .Include(b => b.Tasks)
+                            .Select(b => new BoardWithTasksViewModel()
+                            {
+                                BoardName = b.Name,
+                                TasksCount = b.Tasks.Where(t => t.OwnerId == user.Id).Count()
                             })
                             .OrderBy(b => b.BoardName)
                             .ToListAsync();

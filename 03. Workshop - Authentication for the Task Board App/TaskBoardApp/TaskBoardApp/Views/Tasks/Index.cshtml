@@ -7,55 +7,57 @@
     <h1 class="display-4" style="color: #EFCFC3; font-weight: bold; font-style: italic">
         @ViewData["Title"]
     </h1>
-    @if(@ViewBag.UserMessage != null)
-    {
-        <h3><i style="color: yellow; background-color: green; border-radius: 5px;">
-            @ViewBag.UserMessage</i>
-        </h3>
-    }
-    <br/>
-    @if(Model == null || Model?.UsersTasks?.Count() <= 0)
-    {
-        <h2 style="color: white; font-weight: bold">
-            <i>No tasks yet.</i>
-        </h2>
-    }
-    else
-    {
-        <h4 class="mt-2" style="color: white; font-style: italic">You have: <b>@Model.UsersTasks.Count()</b> tasks</h4>
+    @{
+        if(@ViewBag.UserMessage != null)
+        {
+            <h3><i style="color: yellow; background-color: green; border-radius: 5px;">
+                @ViewBag.UserMessage</i>
+            </h3>
+        }
         <br/>
-        <table class="table table-hover" style="width: 1280px; color: white; text-align: center; backdrop-filter: blur(35px); border: 1px solid; border-color: #EFCFC3; background-color: transparent;">
-            <thead>
-                <tr>
-                    @foreach(BoardWithTasksViewModel board in Model.UsersBoards)
-                    {
-                        <th style="text-align: center">@board.BoardName: @board.TasksCount</th>
-                    }
-                </tr>
-            </thead>
-        </table>
-
-        <table class="table table-hover" style="width: 1280px; color: black; text-align: center; backdrop-filter: blur(35px); border: 4px solid; border-color: #EFCFC3; background-color: white;">
-            <thead>
-                <tr>
-                    <th style="text-align:center">Title</th>
-                    <th style="text-align:center">Status</th>
-                    <th style="text-align:center">Description</th>
-                    <th style="text-align:center">Created on</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var task in @Model.UsersTasks)
-                {
-                    <tr name="trData" onclick="location.href='@Url.Action("Details", "Tasks", new { task.Id })'">
-                        <td style="text-align: center">@Html.DisplayFor(modelItem => task.Title)</td>
-                        <td style="text-align:center">@Html.DisplayFor(modelItem => task.BoardName)</td>
-                        <td style="text-align:center">@Html.DisplayFor(modelItem => task.Description)</td>
-                        <td style="text-align:center">@Html.DisplayFor(modelItem => task.CreatedOn)</td>
+        if(Model == null || Model?.UsersTasks?.Count() <= 0)
+        {
+            <h2 style="color: white; font-weight: bold">
+                <i>No tasks yet.</i>
+            </h2>
+        }
+        else
+        {
+            <h4 class="mt-2" style="color: white; font-style: italic">You have: <b>@Model.UsersTasks.Count()</b> tasks</h4>
+            <br/>
+            <table class="table table-hover" style="width: 1280px; color: white; text-align: center; backdrop-filter: blur(35px); border: 1px solid; border-color: #EFCFC3; background-color: transparent;">
+                <thead>
+                    <tr>
+                        @foreach(BoardWithTasksViewModel board in Model.UsersBoards)
+                        {
+                            <th style="text-align: center">@board.BoardName: @board.TasksCount</th>
+                        }
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+            </table>
+    
+            <table class="table table-hover" style="width: 1280px; color: black; text-align: center; backdrop-filter: blur(35px); border: 4px solid; border-color: #EFCFC3; background-color: white;">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">Title</th>
+                        <th style="text-align:center">Status</th>
+                        <th style="text-align:center">Description</th>
+                        <th style="text-align:center">Created on</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var task in @Model.UsersTasks)
+                    {
+                        <tr name="trData" onclick="location.href='@Url.Action("Details", "Tasks", new { task.Id })'">
+                            <td style="text-align: center">@Html.DisplayFor(modelItem => task.Title)</td>
+                            <td style="text-align:center">@Html.DisplayFor(modelItem => task.BoardName)</td>
+                            <td style="text-align:center">@Html.DisplayFor(modelItem => task.Description)</td>
+                            <td style="text-align:center">@Html.DisplayFor(modelItem => task.CreatedOn)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
     }
     <div>
         <a class="btn btn-success mt-2" asp-controller="Tasks" asp-action="Create">Create new task</a>
