@@ -7,8 +7,14 @@
 
     public class TaskBoardDbContext : IdentityDbContext<User>
     {
-        public TaskBoardDbContext(DbContextOptions<TaskBoardDbContext> options)
-            : base(options) => this.Database.Migrate();
+        public TaskBoardDbContext(DbContextOptions<TaskBoardDbContext> options, bool IsInMemory = false)
+            : base(options)
+        {
+            if (!IsInMemory)
+            {
+                this.Database.Migrate();
+            }
+        }
 
         public DbSet<Task> Tasks { get; set; }
 
