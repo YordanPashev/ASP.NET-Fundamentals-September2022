@@ -8,7 +8,7 @@ namespace TaskBoardApp.Services.Tests
     using TaskBoardApp.Data;
 
     [TestFixture]
-    public class Tests
+    public class BoardsServicesUnitTests
     {
         [Test]
         public async System.Threading.Tasks.Task Test_CreateNewBoardAsync_Must_Return_True()
