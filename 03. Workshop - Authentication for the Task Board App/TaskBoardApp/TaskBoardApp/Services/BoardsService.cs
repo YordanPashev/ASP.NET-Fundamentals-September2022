@@ -8,6 +8,7 @@
     using Data;
     using Data.Entities;
     using Models;
+    using Models.Boards;
     using Services.Contracts;
 
     public class BoardsService : IBoardsService
@@ -42,11 +43,9 @@
                             .ToListAsync();
 
         public async Task<List<BoardWithTasksViewModel>> GetBoardsWithThierTasksAsync()
-        {
-            List<string> boardsNames = new List<string>();
-
-            return await this.context.Boards
+            => await this.context.Boards
                             .Include(b => b.Tasks)
+                            .ThenInclude(t => t.Owner)
                             .Select(b => new BoardWithTasksViewModel()
                             {
                                 BoardName = b.Name,
@@ -64,16 +63,16 @@
                             })
                             .OrderBy(b => b.BoardName)
                             .ToListAsync();
-        }
 
-        public async Task<List<BoardWithTasksViewModel>> GetUsersBoardsAsync(string? userName)
+        public async Task<List<BoardWithTasksCount>> GetUserBoardsWithTasksCountAsync(string? userName)
         {
             List<string> boardsNames = new List<string>();
             User? user = await this.context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
 
             return await this.context.Boards
                             .Include(b => b.Tasks)
-                            .Select(b => new BoardWithTasksViewModel()
+                            .ThenInclude(t => t.Owner)
+                            .Select(b => new BoardWithTasksCount()
                             {
                                 BoardName = b.Name,
                                 TasksCount = b.Tasks.Where(t => t.OwnerId == user.Id).Count()

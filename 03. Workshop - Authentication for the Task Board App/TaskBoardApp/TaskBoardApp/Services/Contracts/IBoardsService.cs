@@ -1,6 +1,7 @@
 ﻿namespace TaskBoardApp.Services.Contracts
 {
     using Models;
+    using Models.Boards;
 
     public interface IBoardsService
     {
@@ -12,6 +13,6 @@
 
         Task<List<BoardWithTasksViewModel>> GetBoardsWithThierTasksAsync();
 
-        Task<List<BoardWithTasksViewModel>> GetUsersBoardsAsync(string? userName);
+        Task<List<BoardWithTasksCount>> GetUserBoardsWithTasksCountAsync(string? userName);
     }
 }

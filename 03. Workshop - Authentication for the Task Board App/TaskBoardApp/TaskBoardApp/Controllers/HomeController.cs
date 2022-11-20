@@ -31,7 +31,6 @@
                 BoardsWithUserTasksCountViewModel model = new BoardsWithUserTasksCountViewModel()
                 {
                     Boards = await this.boardsService.GetBoardsWithThierTasksAsync(),
-                    UsersTasksCount = await this.tasksService.GetUsersTasksCountAsync(User?.Identity?.Name),
                     AllTasksCount = await this.tasksService.GetAllTasksCount(),
                 };
 

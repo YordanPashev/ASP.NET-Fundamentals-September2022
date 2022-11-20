@@ -32,7 +32,7 @@
             UserTasksAndBoardsViewModel model = new UserTasksAndBoardsViewModel()
             {
                 UsersTasks = await this.tasksService.GetUsersTasksAsync(User?.Identity?.Name),
-                UsersBoards = await this.boardsService.GetUsersBoardsAsync(User?.Identity?.Name)
+                UsersBoards = await this.boardsService.GetUserBoardsWithTasksCountAsync(User?.Identity?.Name)
             };
 
             return this.View(model);

@@ -1,4 +1,5 @@
-﻿@model UserTasksAndBoardsViewModel
+﻿@using TaskBoardApp.Models.Boards
+@model UserTasksAndBoardsViewModel
 
 @{
     ViewData["Title"] = "My Tasks";
@@ -28,7 +29,7 @@
             <table class="table table-hover" style="width: 1280px; color: white; text-align: center; backdrop-filter: blur(35px); border: 1px solid; border-color: #EFCFC3; background-color: transparent;">
                 <thead>
                     <tr>
-                        @foreach(BoardWithTasksViewModel board in Model.UsersBoards)
+                        @foreach(BoardWithTasksCount board in Model.UsersBoards)
                         {
                             <th style="text-align: center">@board.BoardName: @board.TasksCount</th>
                         }
