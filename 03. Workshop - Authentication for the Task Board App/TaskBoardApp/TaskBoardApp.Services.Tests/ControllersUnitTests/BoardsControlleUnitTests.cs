@@ -30,7 +30,7 @@
         }
 
         [Test]
-        public async System.Threading.Tasks.Task TTest_Index_Must_Return_ViewResult_With_ViewBag_UserMessage()
+        public async System.Threading.Tasks.Task Test_Index_Must_Return_ViewResult_With_ViewBag_UserMessage()
         {
             string userMessage = "User message text.";
             IActionResult result = await this.boardsController.Index(userMessage);
