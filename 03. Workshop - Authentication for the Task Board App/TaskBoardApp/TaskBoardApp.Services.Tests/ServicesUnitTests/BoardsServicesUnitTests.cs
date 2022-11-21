@@ -1,4 +1,4 @@
-namespace TaskBoardApp.Services.Tests
+namespace TaskBoardAppTests.ServicesUnitTests
 {
     using System;
     using System.Collections.Generic;
@@ -6,10 +6,11 @@ namespace TaskBoardApp.Services.Tests
     using Microsoft.EntityFrameworkCore;
     using NUnit.Framework;
 
-    using Data;
-    using Data.Entities;
-    using Models;
-    using Models.Boards;
+    using TaskBoardApp.Data;
+    using TaskBoardApp.Data.Entities;
+    using TaskBoardApp.Models;
+    using TaskBoardApp.Models.Boards;
+    using TaskBoardApp.Services;
 
     [TestFixture]
     public class BoardsServicesUnitTests
