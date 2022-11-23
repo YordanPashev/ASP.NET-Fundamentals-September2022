@@ -24,9 +24,11 @@
         public async System.Threading.Tasks.Task Test_Index_Must_Return_ViewResult_With_Empty_ViewBag()
         {
             IActionResult result = await this.boardsController.Index();
+            var viewResult = result as ViewResult;
 
+            Assert.IsNotNull(result, "The type of the result must be 'ViewResult'");
             Assert.That(result.GetType() == typeof(ViewResult));           
-            Assert.IsNull(this.boardsController.ViewBag.UserMessage, "The ViewBag.UserMessage must be empty.");
+            Assert.IsNull(viewResult?.ViewData["UserMessage"], "The ViewBag.UserMessage must be empty.");
         }
 
         [Test]
@@ -34,9 +36,12 @@
         {
             string userMessage = "User message text.";
             IActionResult result = await this.boardsController.Index(userMessage);
-
+            var viewResult = result as ViewResult;
+            string? viewBagResult = viewResult?.ViewData["UserMessage"] == null ? string.Empty : viewResult?.ViewData?["UserMessage"]?.ToString();
+            
+            Assert.IsNotNull(result, "The type of the result must be 'ViewResult'");
             Assert.That(result.GetType() == typeof(ViewResult), "Type of result must be 'ViewResult'.");
-            Assert.That(this.boardsController.ViewBag.UserMessage == userMessage, $"ViewBag.UserMessage must be identical to '{userMessage}'");
+            Assert.That(viewBagResult == userMessage, $"ViewBag.UserMessage must be identical to '{userMessage}'");
         }
     }
 }
