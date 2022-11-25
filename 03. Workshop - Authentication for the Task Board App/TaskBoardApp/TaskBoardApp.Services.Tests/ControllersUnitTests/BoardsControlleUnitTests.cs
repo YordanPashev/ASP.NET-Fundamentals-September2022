@@ -14,8 +14,8 @@
     {        
         private const string UserMessage = "User message text.";
 
-        private Mock<IBoardsService>? boardsService;
-        private BoardsController? boardsController;
+        private Mock<IBoardsService> boardsService;
+        private BoardsController boardsController;
         private ViewResult? viewResult;
         private RedirectToActionResult? RedirectToActionResult;
 
