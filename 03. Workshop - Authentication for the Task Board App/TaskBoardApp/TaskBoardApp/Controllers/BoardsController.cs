@@ -45,7 +45,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.RedirectToAction("Create", "Boards", new { userMessage = GlobalConstants.NewBoardAddedMessage });
+                return this.RedirectToAction("Create", "Boards", new { userMessage = GlobalConstants.InvalidDataMessage });
             }
 
             await this.boardsService.CreateNewBoardAsync(model.Name);
