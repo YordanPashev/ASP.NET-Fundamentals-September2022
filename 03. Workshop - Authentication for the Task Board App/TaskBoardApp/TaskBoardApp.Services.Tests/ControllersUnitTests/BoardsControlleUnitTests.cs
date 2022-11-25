@@ -14,8 +14,8 @@
     {        
         private const string UserMessage = "User message text.";
 
-        private Mock<IBoardsService> boardsService;
-        private BoardsController boardsController;
+        private Mock<IBoardsService>? boardsService;
+        private BoardsController? boardsController;
         private ViewResult? viewResult;
         private RedirectToActionResult? RedirectToActionResult;
 
@@ -79,7 +79,7 @@
         }
 
         [Test]
-        public async System.Threading.Tasks.Task Test_CreateGet_Must_Return_ViewResult_With_ViewBag_UserMessage()
+        public void Test_CreateGet_Must_Return_ViewResult_With_ViewBag_UserMessage()
         {
             this.viewBagUserMessage = string.Empty;
 
