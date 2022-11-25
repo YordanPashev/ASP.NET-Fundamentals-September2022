@@ -4,14 +4,24 @@
     using Moq;
     using NUnit.Framework;
 
+    using TaskBoardApp.Common;
     using TaskBoardApp.Controllers;
+    using TaskBoardApp.Models;
     using TaskBoardApp.Services.Contracts;
 
     [TestFixture]
     public class BoardsControlleUnitTests
-    {
+    {        
+        private const string UserMessage = "User message text.";
+
         private Mock<IBoardsService> boardsService;
         private BoardsController boardsController;
+        private ViewResult? viewResult;
+        private RedirectToActionResult? RedirectToActionResult;
+
+        string? viewBagUserMessage;
+        string? userMessage;
+
 
         [SetUp]
         public void SetUp()
@@ -23,73 +33,118 @@
         [Test]
         public async System.Threading.Tasks.Task Test_Index_Must_Return_ViewResult_With_Empty_ViewBag()
         {
-            IActionResult result = await this.boardsController.Index();
-            var viewResult = result as ViewResult;
+            this.viewBagUserMessage = string.Empty;
+
+            var result = await this.boardsController.Index();
+
+            if (result.GetType() == typeof(ViewResult))
+            {
+                this.viewResult = result as ViewResult;
+                viewBagUserMessage = this.viewResult?.ViewData["UserMessage"] == null ? string.Empty : this.viewResult?.ViewData?["UserMessage"]?.ToString();
+            }
 
             Assert.IsNotNull(result, "The type of the result must be 'ViewResult'");
-            Assert.That(result.GetType() == typeof(ViewResult), "The type of the result must be 'ViewResult'");           
-            Assert.IsNull(viewResult?.ViewData["UserMessage"], "The ViewBag.UserMessage must be empty.");
+            Assert.That(result.GetType() == typeof(ViewResult), "The type of the result must be 'ViewResult'");
+            Assert.IsEmpty(this.viewBagUserMessage, "The ViewBag.UserMessage must be empty.");
         }
 
         [Test]
         public async System.Threading.Tasks.Task Test_Index_Must_Return_ViewResult_With_ViewBag_UserMessage()
         {
-            string userMessage = "User message text.";
-            IActionResult result = await this.boardsController.Index(userMessage);
-            var viewResult = result as ViewResult;
-            string? viewBagResult = viewResult?.ViewData["UserMessage"] == null ? string.Empty : viewResult?.ViewData?["UserMessage"]?.ToString();
-            
+            this.viewBagUserMessage = string.Empty;
+
+            var result = await this.boardsController.Index(UserMessage);
+
+            if (result.GetType() == typeof(ViewResult))
+            {
+                this.viewResult = result as ViewResult;
+                this.viewBagUserMessage = this.viewResult?.ViewData["UserMessage"] == null ? string.Empty : this.viewResult?.ViewData?["UserMessage"]?.ToString();
+            }
+
             Assert.IsNotNull(result, "The type of the result must be 'ViewResult'");
             Assert.That(result.GetType() == typeof(ViewResult), "Type of result must be 'ViewResult'.");
-            Assert.That(viewBagResult == userMessage, $"ViewBag.UserMessage must be identical to '{userMessage}'");
+            Assert.That(this.viewBagUserMessage == UserMessage, $"ViewBag.UserMessage must be identical to '{UserMessage}'");
         }
 
         [Test]
         public void Test_CreateGet_Must_Return_ViewResult_With_Empty_ViewBag()
         {
-            IActionResult result = this.boardsController.Create();
-            var viewResult = result as ViewResult;
+            this.viewBagUserMessage = string.Empty;
+
+            var result = this.boardsController.Create();
 
             Assert.IsNotNull(result, "The type of the result must be 'ViewResult'");
             Assert.That(result.GetType() == typeof(ViewResult), "The type of the result must be 'ViewResult'");
-            Assert.IsNull(viewResult?.ViewData["UserMessage"], "The ViewBag.UserMessage must be empty.");
+            Assert.IsEmpty(this.viewBagUserMessage, "The ViewBag.UserMessage must be empty.");
         }
 
         [Test]
         public async System.Threading.Tasks.Task Test_CreateGet_Must_Return_ViewResult_With_ViewBag_UserMessage()
         {
-            string userMessage = "User message text.";
-            IActionResult result = this.boardsController.Create(userMessage);
-            var viewResult = result as ViewResult;
-            string? viewBagResult = viewResult?.ViewData["UserMessage"] == null ? string.Empty : viewResult?.ViewData?["UserMessage"]?.ToString();
+            this.viewBagUserMessage = string.Empty;
+
+            var result = this.boardsController.Create(UserMessage);
+
+            if (result.GetType() == typeof(ViewResult))
+            {
+                this.viewResult = result as ViewResult;
+                this.viewBagUserMessage = this.viewResult?.ViewData["UserMessage"] == null ? string.Empty : this.viewResult?.ViewData?["UserMessage"]?.ToString();
+            }
 
             Assert.IsNotNull(result, "The type of the result must be 'ViewResult'");
             Assert.That(result.GetType() == typeof(ViewResult), "Type of result must be 'ViewResult'.");
-            Assert.That(viewBagResult == userMessage, $"ViewBag.UserMessage must be identical to '{userMessage}'");
+            Assert.That(this.viewBagUserMessage == UserMessage, $"ViewBag.UserMessage must be identical to '{UserMessage}'");
         }
 
-        [Test]
-        public void Test_CreatePost_Must_Return_ViewResult_With_Empty_ViewBag()
-        {
-            IActionResult result = this.boardsController.Create();
-            var viewResult = result as ViewResult;
+        [TestCase("Create board name with to long name")]
+        [TestCase("ss")]
+        [TestCase(null)]
+        [TestCase("")]
 
-            Assert.IsNotNull(result, "The type of the result must be 'ViewResult'");
-            Assert.That(result.GetType() == typeof(ViewResult), "The type of the result must be 'ViewResult'");
-            Assert.IsNull(viewResult?.ViewData["UserMessage"], "The ViewBag.UserMessage must be empty.");
+        public async System.Threading.Tasks.Task Test_CreatePost_Must_Return_ViewResult_With_ViewBag_UserMessage_InvalidData(string boardName)
+        {
+            CreateBoardViewModel model = new CreateBoardViewModel()
+            {
+                Name = boardName,
+            };
+
+            boardsController.ModelState.AddModelError("Name", "The must be at least 3 chars at max 20.");
+            var result = await this.boardsController.Create(model);
+
+            if (result.GetType() == typeof(RedirectToActionResult))
+            {
+                this.RedirectToActionResult = result as RedirectToActionResult;
+                this.userMessage = ((object[])this.RedirectToActionResult.RouteValues.Values)[0].ToString();
+            }
+
+            Assert.IsNotNull(result, "The type of the result must be 'RedirectToActionResult'");
+            Assert.That(result.GetType() == typeof(RedirectToActionResult), "The type of the result must be 'ViewResult'");
+            Assert.That(this.userMessage == GlobalConstants.InvalidDataMessage, $"ViewBag.UserMessage must be identical to '{GlobalConstants.InvalidDataMessage}'");
         }
 
-        [Test]
-        public async System.Threading.Tasks.Task Test_CreatePost_Must_Return_ViewResult_With_ViewBag_UserMessage()
+        [TestCase("TODO")]
+        [TestCase("Fut")]
+        [TestCase("In Progress")]
+        [TestCase("This will contains 29 chars.")]
+        public async System.Threading.Tasks.Task Test_CreatePost_Must_Return_ViewResult_With_Empty_ViewBag(string boardName)
         {
-            string userMessage = "User message text.";
-            IActionResult result = this.boardsController.Create(userMessage);
-            var viewResult = result as ViewResult;
-            string? viewBagResult = viewResult?.ViewData["UserMessage"] == null ? string.Empty : viewResult?.ViewData?["UserMessage"]?.ToString();
+            CreateBoardViewModel model = new CreateBoardViewModel()
+            {
+                Name = boardName,
+            };
 
-            Assert.IsNotNull(result, "The type of the result must be 'ViewResult'");
-            Assert.That(result.GetType() == typeof(ViewResult), "Type of result must be 'ViewResult'.");
-            Assert.That(viewBagResult == userMessage, $"ViewBag.UserMessage must be identical to '{userMessage}'");
+            var result = await this.boardsController.Create(model);
+
+            if (result.GetType() == typeof(RedirectToActionResult))
+            {
+                this.RedirectToActionResult = result as RedirectToActionResult;
+                this.userMessage = ((object[])this.RedirectToActionResult.RouteValues.Values)[0].ToString();
+            }
+
+            Assert.IsNotNull(result, "The type of the result must be 'RedirectToActionResult'");
+            Assert.That(result.GetType() == typeof(RedirectToActionResult), "The type of the result must be 'ViewResult'");
+            Assert.That(this.userMessage == GlobalConstants.NewBoardAddedMessage, $"ViewBag.UserMessage must be identical to '{GlobalConstants.NewBoardAddedMessage}'");
+
         }
     }
 }
