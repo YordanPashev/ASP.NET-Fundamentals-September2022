@@ -20,15 +20,10 @@ namespace TaskBoardAppTests.ServicesUnitTests
         private Board board;
         private User user;
 
-
         [SetUp]
         public void SetUp()
         {
-            DbContextOptions<TaskBoardDbContext> options = new DbContextOptionsBuilder<TaskBoardDbContext>()
-                    .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                    .Options;
-
-            this.dbContext = new TaskBoardDbContext(options, true);
+            this.dbContext = HelperMethods.CreateTaskBoardDbContextMock();
             this.boardsService = new BoardsService(this.dbContext);
             this.tasksService = new TasksService(this.dbContext, this.boardsService);
         }

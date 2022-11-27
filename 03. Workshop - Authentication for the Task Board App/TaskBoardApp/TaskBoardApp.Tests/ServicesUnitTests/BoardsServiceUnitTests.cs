@@ -22,10 +22,7 @@ namespace TaskBoardAppTests.ServicesUnitTests
         [SetUp]
         public void SetUp()
         {
-            DbContextOptions<TaskBoardDbContext> options = new DbContextOptionsBuilder<TaskBoardDbContext>()
-                    .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                    .Options;
-            this.dbContext = new TaskBoardDbContext(options, true);
+            this.dbContext = HelperMethods.CreateTaskBoardDbContextMock();
             this.boardsService = new BoardsService(dbContext);
         }
 

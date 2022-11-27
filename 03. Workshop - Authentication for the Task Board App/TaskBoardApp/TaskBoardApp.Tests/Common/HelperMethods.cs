@@ -1,5 +1,6 @@
 ﻿namespace TaskBoardAppTests.Common
 {
+    using Microsoft.EntityFrameworkCore;
     using System;
 
     using TaskBoardApp.Data;
@@ -13,8 +14,16 @@
             {
                 Id = Guid.NewGuid(),
                 Name = "TODO"
-
             };
+
+        public static TaskBoardDbContext CreateTaskBoardDbContextMock()
+        {
+            DbContextOptions<TaskBoardDbContext> options = new DbContextOptionsBuilder<TaskBoardDbContext>()
+                    .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                    .Options;
+
+            return new TaskBoardDbContext(options, true);
+        }
 
         public static CreateTaskViewModel CreateNewTaskViewModel(string title, string description, Guid boardId, string ownerUserName)
             => new CreateTaskViewModel()
