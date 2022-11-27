@@ -11,9 +11,10 @@ namespace TaskBoardAppTests.ServicesUnitTests
     using TaskBoardApp.Models;
     using TaskBoardApp.Models.Boards;
     using TaskBoardApp.Services;
+    using TaskBoardAppTests.Common;
 
     [TestFixture]
-    public class BoardsServicesUnitTests
+    public class BoardsServiceUnitTests
     {
         private BoardsService boardsService;
         private TaskBoardDbContext dbContext;
@@ -105,7 +106,7 @@ namespace TaskBoardAppTests.ServicesUnitTests
             string boardOnename = "Future";
             string boardTwoname = "TODO";
 
-            User userKichka = await CreateUserWithNameKichka(dbContext);
+            User userKichka = await HelperMethods.CreateUserWithNameKichka(dbContext);
             await this.boardsService.CreateNewBoardAsync(boardOnename);
             await this.boardsService.CreateNewBoardAsync(boardTwoname);
             await this.dbContext.SaveChangesAsync();
@@ -113,8 +114,8 @@ namespace TaskBoardAppTests.ServicesUnitTests
             Board? boardOne = await this.dbContext.Boards.FirstOrDefaultAsync(b => b.Name == boardOnename);
             Board? boardTwo = await this.dbContext.Boards.FirstOrDefaultAsync(b => b.Name == boardTwoname);
 
-            Task taskOne = CreateTask(boardOne, taskOneTitle, userKichka, taskOneDescription);
-            Task taskTwo = CreateTask(boardTwo, taskTwoTitle, userKichka, taskTwoDescription);
+            Task taskOne = HelperMethods.CreateTask(boardOne, taskOneTitle, userKichka, taskOneDescription);
+            Task taskTwo = HelperMethods.CreateTask(boardTwo, taskTwoTitle, userKichka, taskTwoDescription);
 
             await this.dbContext.Tasks.AddAsync(taskOne);
             await this.dbContext.Tasks.AddAsync(taskTwo);
@@ -143,8 +144,8 @@ namespace TaskBoardAppTests.ServicesUnitTests
             string boardOneName = "Future";
             string boardTwoName = "TODO";
 
-            User userKichka = await CreateUserWithNameKichka(this.dbContext);
-            User userDimitrichko = await CreateUserWithNameDimitrichko(this.dbContext);
+            User userKichka = await HelperMethods.CreateUserWithNameKichka(this.dbContext);
+            User userDimitrichko = await HelperMethods.CreateUserWithNameDimitrichko(this.dbContext);
 
             await this.boardsService.CreateNewBoardAsync(boardOneName);
             await this.boardsService.CreateNewBoardAsync(boardTwoName);
@@ -153,8 +154,8 @@ namespace TaskBoardAppTests.ServicesUnitTests
             Board? boardOne = await this.dbContext.Boards.FirstOrDefaultAsync(b => b.Name == boardOneName);
             Board? boardTwo = await this.dbContext.Boards.FirstOrDefaultAsync(b => b.Name == boardTwoName);
 
-            Task taskOne = CreateTask(boardOne, taskOneTitle, userKichka, taskOneDescription);
-            Task taskTwo = CreateTask(boardTwo, taskTwoTitle, userDimitrichko, taskTwoDescription);
+            Task taskOne = HelperMethods.CreateTask(boardOne, taskOneTitle, userKichka, taskOneDescription);
+            Task taskTwo = HelperMethods.CreateTask(boardTwo, taskTwoTitle, userDimitrichko, taskTwoDescription);
 
             await this.dbContext.Tasks.AddAsync(taskOne);
             await this.dbContext.Tasks.AddAsync(taskTwo);
@@ -165,53 +166,6 @@ namespace TaskBoardAppTests.ServicesUnitTests
             Assert.That(kichkaBoards.Count == expectedBoardsCount && kichkaBoards[firstBoardIndex].BoardName == boardOneName &&
                         kichkaBoards[firstBoardIndex].TasksCount == expectedTasksCountForBoardOne && kichkaBoards[secondBoardIndex].TasksCount == expectedTasksCountForBoardTwo,
                         $"The count of the boards must be {expectedBoardsCount}. The count of their tasks must be {expectedTasksCountForBoardOne}. The names of the boards and their tasks titles must be identical.");
-        }
-
-        private Task CreateTask(Board? board, string title, User user, string taskOneDescription)
-        {
-            return new Task()
-            {
-                Id = Guid.NewGuid(),
-                Title = title,
-                Description = "To clean the house on Sunday.",
-                CreatedOn = DateTime.Now,
-                BoardId = board.Id,
-                OwnerId = user.Id,
-            };
-        }
-
-        private async System.Threading.Tasks.Task<User> CreateUserWithNameKichka(TaskBoardDbContext dbContext)
-        {
-            User user =  new User()
-            {
-                Id = Guid.NewGuid().ToString(),
-                UserName = "Kichka",
-                PasswordHash = "5994471abb01112afcc18159f6cc74b4f511b99806da59b3ca",
-                FirstName = "Kichka",
-                LastName = "Tebeshirova",
-                Email = "kichetu@abv.bg"
-            };
-
-            await dbContext.Users.AddAsync(user);
-            await dbContext.SaveChangesAsync();
-            return user;
-        }
-
-        private async System.Threading.Tasks.Task<User> CreateUserWithNameDimitrichko(TaskBoardDbContext dbContext)
-        {
-            User user = new User()
-            {
-                Id = Guid.NewGuid().ToString(),
-                UserName = "Dimitrihcko",
-                PasswordHash = "5994471abb01112afcc18159f6cc74b4f511b99806da59bsd4a",
-                FirstName = "Dimitrichko",
-                LastName = "Todorov",
-                Email = "dimchou_t@abv.bg"
-            };
-
-            await dbContext.Users.AddAsync(user);
-            await dbContext.SaveChangesAsync();
-            return user;
         }
     }
 }
