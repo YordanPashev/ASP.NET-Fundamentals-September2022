@@ -16,6 +16,12 @@
         private readonly TaskBoardDbContext context;
         private readonly IBoardsService boardsService;
 
+        public TasksService(TaskBoardDbContext dbcontext, IBoardsService boardsService)
+        {
+            this.context = dbcontext;
+            this.boardsService = boardsService;
+        }
+
         public async Task<EditTaskViewModel?> CreateNewEditTaskViewModelByIdAsync(Guid? modelId)
         {
             Data.Entities.Task? task = await this.context.Tasks.Include(t => t.Owner).FirstOrDefaultAsync(t => t.Id == modelId);
@@ -34,12 +40,6 @@
                 OwnerUsername = task.Owner.UserName,
                 ExistingBoards = await this.boardsService.GetAllBoardsAsync()
             };
-        }
-
-        public TasksService(TaskBoardDbContext dbcontext, IBoardsService boardsService)
-        {
-            this.context = dbcontext;
-            this.boardsService = boardsService;
         }
 
         public async System.Threading.Tasks.Task CreateNewTaskAsync(CreateTaskViewModel model)
